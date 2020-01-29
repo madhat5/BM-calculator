@@ -4,6 +4,8 @@ Discount rate calculator
 
 ## Get Started
 
+Requires [node](https://nodejs.org/) and [gulp](https://gulpjs.com/)
+
 Install the dev dependencies
 
 ```
