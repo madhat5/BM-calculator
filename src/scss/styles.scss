@@ -6,6 +6,18 @@
   background-color: #efefef;
 }
 
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  margin: 10px 0;
+  padding: 5px;
+  width: 100%;
+  min-height: 200px;
+  border-radius: 10px;
+}
+
 .border {
   // border: 1px solid #000000;
   background-color: #ffffff;
