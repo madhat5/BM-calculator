@@ -1,22 +1,10 @@
 // console.log("black math calculator");
 
+
+
+// RANGE SLIDER
 var rangeSlider = function () {
-    // $('input[type="range"]').rangeslider({
-    //     rangeClass: 'rangeslider',
-    //     horizontalClass: 'rangeslider--horizontal',
-    //     fillClass: 'rangeslider__fill',
-    //     handleClass: 'rangeslider__handle',
-
-    //     onSlide: function(position, value) {
-    //         console.log(value)
-    //     },
-
-    //     // onSlideEnd: function(position, value) {
-    //     //     return value + assign to object?
-    //     // }
-    // });
-
-    var slider = $('.range-slider'),
+      var slider = $('.range-slider'),
         range = $('.range-slider__range'),
         value = $('.range-slider__value');
 
@@ -25,15 +13,32 @@ var rangeSlider = function () {
         value.each(function () {
             var value = $(this).next().attr('value');
             $(this).html(value);
-            console.log(value) 
-        });
 
-        console.log(value.innerHTML) 
+
+
+            // var curerntVal = $(this)[0].innerHTML;
+            // console.log(value) 
+            // console.log(curerntVal);
+        });        
 
         range.on('input', function () {
             $(this).prev(value).html(this.value);
         });
+
+        // return rate value
     });
+    
 };
 
 rangeSlider();
+
+
+
+// CASHLOW HISTORY
+/*
+get res vals for 
+    - decay rate (pull from slider)
+    - net present val (NPV) (set temp val)
+assign res to html div
+display new res in new lines
+*/
