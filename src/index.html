@@ -2,61 +2,65 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  </head>
-  <body>
-    <!--[if lt IE 7]>
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.css">
+</head>
+
+<body>
+  <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <h1>blackmath calculator</h1>
+  <h1>blackmath calculator</h1>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-md-3 ">
-          <div class="row">
-            <div class="col-xs-12 col-md-12">
-              <div class="box mini-box border">
-                  Cash Flows
-              </div> 
-            </div>
-            <div class="col-xs-12 col-md-12">
-              <div class="box mini-box border">
-                <div class="canvas">
-                  <h3>Decay Rate</h3>
-                  <div class="range-slider">
-                    <input class="range-slider__range" type="range" value="12" min="0" max="100">
-                    <span class="range-slider__value">0</span>
-                  </div>
-                </div>
-              </div> 
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-3 ">
+        <div class="row">
+          <div class="col-xs-12 col-md-12">
+            <div class="box mini-box border">
+              Cash Flows
             </div>
           </div>
-        </div>
-        <div class="col-xs-12 col-md-6">
-          <div class="box border">
-            Results
-          </div>
-        </div>
-        <div class="col-xs-12 col-md-3">
-          <div class="box border">
-            Previous Cash flows
+          <div class="col-xs-12 col-md-12">
+            <div class="box mini-box border">
+              <div class="canvas">
+                <h3>Decay Rate</h3>
+                <span class="range-slider__value">0</span>
+                <input type="range" min="0" max="100" step="1" value="12" unit='%' >
+                <!-- ADD CSS -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="box border">
+          Results
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-3">
+        <div class="box border">
+          Previous Cash flows
+        </div>
+      </div>
     </div>
-    <script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="js/main.js" async defer></script>
-  </body>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.js" async defer></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="js/main.js" async defer></script>
+</body>
+
 </html>

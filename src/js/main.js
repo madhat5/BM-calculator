@@ -1,24 +1,20 @@
 // console.log("black math calculator");
 
-var rangeSlider = function(){
-    var slider = $('.range-slider'),
-        range = $('.range-slider__range'),
-        value = $('.range-slider__value');
-      
-    slider.each(function(){
-  
-      value.each(function(){
-        var value = $(this).prev().attr('value');
-        $(this).html(value + '%');
-      });
-  
-      range.on('input', function(){
-        $(this).next(value).html(this.value + '%');
-      });
-      
-      // return value + add discount rate object
-      // add percentage sign to value
+var rangeSlider = function () {
+    $('input[type="range"]').rangeslider({
+        rangeClass: 'rangeslider',
+        horizontalClass: 'rangeslider--horizontal',
+        fillClass: 'rangeslider__fill',
+        handleClass: 'rangeslider__handle',
+
+        // onSlide: function(position, value) {
+        //     assign value to HTML
+        // },
+
+        // onSlideEnd: function(position, value) {
+        //     return value + assign to object?
+        // }
     });
-  };
-  
-  rangeSlider();
+};
+
+rangeSlider();
