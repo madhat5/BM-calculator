@@ -34,7 +34,50 @@
   border-radius: 10px;
 }
 
+.canvas {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
 
 // ================
 // SLIDER
 // ================
+
+
+
+
+
+// ================
+// CASHFLOW RESULTS
+// ================
+
+.res-title {
+  font-size: 12px;
+  display: inline-block;
+
+}
+
+.res-title-left {
+  text-align: left;
+  margin-right: 8px;
+}
+
+.res-title-right {
+  text-align: right;
+  margin-left: 8px;
+}
+
+#cashflow-list {
+  list-style-type: none;
+  text-align: center;
+  padding-left: 0;
+}
+
+.cashflow-list-left {
+  padding-right: 20px;
+}
+
+.cashflow-list-right {
+  padding-left: 20px;
+}
