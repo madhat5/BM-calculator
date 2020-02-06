@@ -175,7 +175,7 @@ var lintScripts = function (done) {
 
 	// Lint scripts
 	return src(paths.scripts.input)
-		.pipe(jshint())
+		.pipe(jshint({ "esversion": 6 }))
 		.pipe(jshint.reporter('jshint-stylish'));
 
 };

@@ -7,12 +7,17 @@ var rangeSlider = function () {
         fillClass: 'rangeslider__fill',
         handleClass: 'rangeslider__handle',
 
+        onInit: function() {
+            console.log("initing slider");
+        }
+
         // onSlide: function(position, value) {
         //     assign value to HTML
         // },
 
         // onSlideEnd: function(position, value) {
-        //     return value + assign to object?
+        //     // return value + assign to object?
+        //     console.log(value);
         // }
     });
 };
