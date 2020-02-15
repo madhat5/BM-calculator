@@ -57,7 +57,8 @@
           }
         });
 
-        calc.$calcStartBtn.click(function(e) {
+        // Go key press
+        calc.$calcStartBtn.click(function (e) {
           calc.decayCashFlow(.12)
         });
       },
@@ -101,14 +102,14 @@
       decayCashFlow: function (val) {
         var i, newVal, finalVal;
 
-        for (i = 0; i < calc.$cashFlows.length; i++ ) {
+        for (i = 0; i < calc.$cashFlows.length; i++) {
           if (i == 0) {
             // index 0: decay rate not applied for the inital cashflow
             calc.$cashFlowsCalculated.push(calc.$cashFlows[i])
           } else {
             // convert current cashflow val to decayed cashflow val 
             newVal = calc.$cashFlows[i] / (Math.pow((1 - val), i));
-            
+
             finalVal = Number(newVal.toFixed(2));
 
             calc.$cashFlowsCalculated.push(finalVal)
@@ -118,17 +119,56 @@
         console.log(calc.$cashFlowsCalculated);
       },
 
-      totalsCashFlows: function() {
+      totalsCashFlows: function () {
         // pass in $cashFlowsCalculated array
         // $cashFlowsCalculated array has: [posVal, negVal, diffVal]
 
         // identify positive and negative cashflows 
-        
+
         // sum up pos and neg cashflows seperately
         // push values to $cashFlowsSums array
 
         // calc difference between both
         // pass to array
+
+        var i, posVal, negVal, posSum, negSum, diff;
+        var posVals = [];
+        var negVals = [];
+
+        // sort values by pos/neg
+        for (i = 0; i < calc.$cashFlowsCalculated.length; i++) {
+          if (Math.sign(calc.$cashFlowsCalculated[i]) == 1) {
+            // push to posVals
+            posVal = calc.$cashFlowsCalculated[i];
+            posVals.push(posVal);
+
+          } else if (Math.sign(calc.$cashFlowsCalculated[i]) == -1) {
+            // push to negVals
+            negVal = calc.$cashFlowsCalculated[i];
+            negVals.push(negVal);
+          } else {
+            console.log('0 or NaN entered')
+          }
+        }
+
+        // array sums
+        const arrSum = arr => arr.reduce((a, b) => a + b, 0);
+
+        // positive sum + push
+        posSum = arrSum(posVals);
+        calc.$cashFlowsTotals.push(posSum);
+
+        // negative sum + push
+        negSum = arrSum(negVals);
+        calc.$cashFlowsTotals.push(negSum);
+
+        // pos/neg difference
+        diff = function (a, b) {
+          return Math.abs(a - b);
+        };
+        calc.$cashFlowsTotals.push(diff(posSum, negSum));
+
+        console.log(calc.$cashFlowsTotals);
       }
     };
 
