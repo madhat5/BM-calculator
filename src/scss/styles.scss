@@ -200,6 +200,14 @@ $red: #E43B3F;
 
   .chart-main {
 
+    .highcharts-credits { display: none; }
+
+    .highcharts-container {
+      :not(svg) {
+        transform-origin: bottom;
+      }
+    }
+
     .instructions {
       padding-top: 20px;
       font-size: 32px;
@@ -218,6 +226,10 @@ $red: #E43B3F;
       margin: 50px auto 0;
       opacity: .5;
       border-radius: 10px;
+
+      &.calc-btn--active {
+        opacity: 1;
+      }
     }
   }
 }

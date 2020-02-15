@@ -1,14 +1,25 @@
 (function ($) {
   $( document ).ready(function() {
     const calc = {
+      // 
       // Calc properties - default values so nothing breaks
+      // 
+
+      // Cash flows
       $cashFlows: [],
       $cashFlowInput: null,
       $cashFlowList: null,
       $cashFlowAddBtn: null,
       $cashFlowRemoveBtn: null,
+
+      // Charts
+      $calcBtn: null,
     
+      // 
       // Methods
+      // 
+
+      // Init
       init: function() {
         console.log("calc init");
 
@@ -16,6 +27,7 @@
         calc.$cashFlowInput = $('#cash-flow-input');
         calc.$cashFlowList = $('#cash-flow-list');
         calc.$cashFlowAddBtn = $('#cash-flow-add-btn');
+        calc.$calcBtn = $('#calc-btn');
 
         // Input should be focused on load
         calc.$cashFlowInput.focus();
@@ -52,8 +64,46 @@
             calc.addCashFlow(cashFlowVal);
           }
         });
+
+        // Go btn
+        calc.$calcBtn.click(function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          Highcharts.chart('chart-main', {
+            chart: {
+                type: 'column'
+            },
+            tooltip: {
+                // headerFormat: '<span style="font-size:10px">{point.y}</span>',
+                useHTML: true
+            },
+            yAxis: {
+              visible: false
+            },
+            xAxis: {
+              visible: false
+            },
+            plotOptions: {
+                column: {
+                    // pointPadding: 0.2,
+                    groupPadding: 0,
+                    borderWidth: 1
+                }
+            },
+            series: [{
+              showInLegend: false,
+              color: '#4F5366',
+              negativeColor: '#E43B3F',
+              data: calc.$cashFlows,
+              threshold: null
+        
+            }]
+          });
+        });
       },
 
+      // Cash Flows
       addCashFlow: function(val) {
         const valInt = new Number(val), // convert val string to a number
               decimalInt = valInt.toFixed(2), // ensures 2 decimal places, returns string
@@ -66,7 +116,7 @@
 
           $(calc.$cashFlowList).append(newCashFlowEl);
           
-          calc.$cashFlows.push(finalVal);
+          calc.$cashFlows.push(finalVal.valueOf());
   
           calc.$cashFlowInput.val('');
 
@@ -88,7 +138,7 @@
         calc.$cashFlowInput.focus();
 
         console.log(calc.$cashFlows);
-      }
+      },
     };
   
     // Initialize calculator
