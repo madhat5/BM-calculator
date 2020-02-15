@@ -61,3 +61,10 @@ function endRes (decayRate, npv) {
   <li><span>decay rate</span><span>npv</span></li>
 }
 */
+
+
+
+// refactor to calc.js
+// setup function to return return rate Object
+// rate Object has rate.growth and rate.decay (so calc.rate.growth)
+// return value 
