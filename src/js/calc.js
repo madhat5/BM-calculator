@@ -99,25 +99,19 @@
       },
 
       decayCashFlow: function (val) {
-        // pass in $cashFlows array
-        
-        // loop through array, for each cashflow element ($cashFlows[n]), apply decay rate (d) math, n is loop count
-        // index 0: decay rate not applied(C0)
-        // all others: $cashFlows[n] / (Math.pow((1 - d), $cashFlows.indexOf(n)))
-
-        // push new value to $cashFlowsCalculated array
-
-        var i, newVal;
+        var i, newVal, finalVal;
 
         for (i = 0; i < calc.$cashFlows.length; i++ ) {
           if (i == 0) {
             // index 0: decay rate not applied for the inital cashflow
             calc.$cashFlowsCalculated.push(calc.$cashFlows[i])
           } else {
-            // convert current cashflow val to decayed cashflow val
-            newVal = calc.$cashFlows[i] / (Math.pow((1 - val), calc.$cashFlows.indexOf(i)));
+            // convert current cashflow val to decayed cashflow val 
+            newVal = calc.$cashFlows[i] / (Math.pow((1 - val), i));
             
-            calc.$cashFlowsCalculated.push(newVal)
+            finalVal = Number(newVal.toFixed(2));
+
+            calc.$cashFlowsCalculated.push(finalVal)
           }
         }
 
