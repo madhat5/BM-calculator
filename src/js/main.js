@@ -11,38 +11,38 @@
 
 //     slider.each(function () {
 
-//         // growthValue.each(function () {
-//         //     // intital growth slider value
-//         //     var gValue = $(this).next().attr('value');
-//         //     $(this).html(gValue + '%');
+        // growthValue.each(function () {
+        //     // intital growth slider value
+        //     var gValue = $(this).next().attr('value');
+        //     $(this).html(gValue + '%');
 
-//         //     console.log('intital growth slider value: ' + $('input[type=range]').val())
+        //     console.log('intital growth slider value: ' + $('input[type=range]').val())
 
-//         //     // intital decay slider value
-//         //     var dValue = ((1 - (1 / (1 + gValue / 100))) * 100).toFixed(0);
-//         //     $(decayValue).html(dValue + '%');
+        //     // intital decay slider value
+        //     var dValue = ((1 - (1 / (1 + gValue / 100))) * 100).toFixed(0);
+        //     $(decayValue).html(dValue + '%');
 
-//         //     console.log('intital decay slider value: ' + dValue)
+        //     console.log('intital decay slider value: ' + dValue)
 
-//         // });
+        // });
 
-//         // range.on('input', function () {
+        // range.on('input', function () {
 
-//         //     // current growth slider value
-//         //     $(this).prev(growthValue).html(this.value + '%');
+        //     // current growth slider value
+        //     $(this).prev(growthValue).html(this.value + '%');
 
-//         //     console.log('current growth slider value: ' + $('input[type=range]').val());
-//         //     currentGrowthVal = $('input[type=range]').val();
+        //     console.log('current growth slider value: ' + $('input[type=range]').val());
+        //     currentGrowthVal = $('input[type=range]').val();
 
-//         //     // current decay slider value
-//         //     currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
+        //     // current decay slider value
+        //     currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
 
-//         //     $(decayValue).text(currentDecayVal + '%');
-//         //     console.log('current decay slider value: ' + currentDecayVal);
+        //     $(decayValue).text(currentDecayVal + '%');
+        //     console.log('current decay slider value: ' + currentDecayVal);
 
-//         //     // return [currentGrowthVal, ];
+        //     // return [currentGrowthVal, ];
 
-//         // });
+        // });
 //     });
 
 
