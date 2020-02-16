@@ -60,6 +60,7 @@
         // Go key press
         calc.$calcStartBtn.click(function (e) {
           calc.decayCashFlow(.12)
+          calc.totalsCashFlows();
         });
       },
 
@@ -120,17 +121,6 @@
       },
 
       totalsCashFlows: function () {
-        // pass in $cashFlowsCalculated array
-        // $cashFlowsCalculated array has: [posVal, negVal, diffVal]
-
-        // identify positive and negative cashflows 
-
-        // sum up pos and neg cashflows seperately
-        // push values to $cashFlowsSums array
-
-        // calc difference between both
-        // pass to array
-
         var i, posVal, negVal, posSum, negSum, diff;
         var posVals = [];
         var negVals = [];
@@ -155,18 +145,18 @@
         const arrSum = arr => arr.reduce((a, b) => a + b, 0);
 
         // positive sum + push
-        posSum = arrSum(posVals);
+        posSum = Number(arrSum(posVals).toFixed(2));
         calc.$cashFlowsTotals.push(posSum);
 
         // negative sum + push
-        negSum = arrSum(negVals);
+        negSum = Number(arrSum(negVals).toFixed(2));
         calc.$cashFlowsTotals.push(negSum);
 
         // pos/neg difference
         diff = function (a, b) {
           return Math.abs(a - b);
         };
-        calc.$cashFlowsTotals.push(diff(posSum, negSum));
+        calc.$cashFlowsTotals.push(Number(diff(posSum, negSum).toFixed(2)));
 
         console.log(calc.$cashFlowsTotals);
       }
