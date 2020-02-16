@@ -9,6 +9,8 @@
       $cashFlowRemoveBtn: null,
       $cashFlowsCalculated: [],
       $cashFlowsTotals: [],
+      $rateGrowth: null,
+      $rateDecay: null,
 
 
       // Methods
@@ -20,6 +22,10 @@
         calc.$cashFlowList = $('#cash-flow-list');
         calc.$cashFlowAddBtn = $('#cash-flow-add-btn');
         calc.$calcStartBtn = $('.calc-btn');
+        calc.$slider = $('.range-slider');
+        calc.$range = $('.range-slider__range');
+        calc.$growthValue = $('.range-slider__value');
+        calc.$decayValue = $('.decay-rate__value');
 
         // Input should be focused on load
         calc.$cashFlowInput.focus();
@@ -55,6 +61,18 @@
 
             calc.addCashFlow(cashFlowVal);
           }
+        });
+
+        // slider trigger
+        calc.$slider.each(function () {
+
+          calc.$growthValue.each(function () {
+            calc.initialRates();
+          });
+
+          calc.$range.on('input', function () {
+            calc.currentRates();
+          });
         });
 
         // Go key press
@@ -98,6 +116,36 @@
         calc.$cashFlowInput.focus();
 
         console.log(calc.$cashFlows);
+      },
+
+      initialRates: function () {
+        // intital growth slider value
+        var gValue = $(this).next().attr('value');
+        $(this).html(gValue + '%');
+
+        // console.log('intital growth slider value: ' + $('input[type=range]').val())
+
+        // intital decay slider value
+        var dValue = ((1 - (1 / (1 + gValue / 100))) * 100).toFixed(0);
+        calc.$decayValue.html(dValue + '%');
+
+        // console.log('intital decay slider value: ' + dValue)
+      },
+
+      currentRates: function() {
+        var currentGrowthVal, currentDecayVal;
+
+         // current growth slider value
+         $(this).prev(calc.$growthValue).html(this.value + '%');
+
+        //  console.log('current growth slider value: ' + $('input[type=range]').val());
+         currentGrowthVal = $('input[type=range]').val();
+
+         // current decay slider value
+         currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
+
+         calc.$decayValue.text(currentDecayVal + '%');
+        //  console.log('current decay slider value: ' + currentDecayVal);
       },
 
       decayCashFlow: function (val) {

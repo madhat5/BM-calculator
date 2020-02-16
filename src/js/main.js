@@ -1,70 +1,81 @@
-// console.log("black math calculator");
+// // console.log("black math calculator");
 
-// RANGE SLIDER
-var rangeSlider = function () {
-    var slider = $('.range-slider'),
-      range = $('.range-slider__range'),
-      value = $('.range-slider__value');
+// // RANGE SLIDER
+// var rangeSlider = function () {
+//     var slider = $('.range-slider'),
+//         range = $('.range-slider__range'),
+//         growthValue = $('.range-slider__value'),
+//         decayValue = $('.decay-rate__value');
 
-  slider.each(function () {
+//     var currentGrowthVal, currentDecayVal;
 
-      value.each(function () {
-          var value = $(this).next().attr('value');
-          $(this).html(value);
+//     slider.each(function () {
 
-          // onclick?
-          range.click(function() {
-              console.log(value.innerHTML)
-            });
-          console.log($('input[type=range]').val())
-          console.log($('.range-slider__value').val())
+//         // growthValue.each(function () {
+//         //     // intital growth slider value
+//         //     var gValue = $(this).next().attr('value');
+//         //     $(this).html(gValue + '%');
 
-          // var curerntVal = $(this)[0].innerHTML;
-          // console.log(value) 
-          // console.log(curerntVal);
-      });        
+//         //     console.log('intital growth slider value: ' + $('input[type=range]').val())
 
-      range.on('input', function () {
-          $(this).prev(value).html(this.value);
-      });
+//         //     // intital decay slider value
+//         //     var dValue = ((1 - (1 / (1 + gValue / 100))) * 100).toFixed(0);
+//         //     $(decayValue).html(dValue + '%');
 
-      // return rate value
-  });
-  
-};
+//         //     console.log('intital decay slider value: ' + dValue)
 
-rangeSlider();
+//         // });
 
+//         // range.on('input', function () {
 
+//         //     // current growth slider value
+//         //     $(this).prev(growthValue).html(this.value + '%');
 
-// CASHLOW HISTORY
-var decayRate = 12,
-  npv = 44000;
+//         //     console.log('current growth slider value: ' + $('input[type=range]').val());
+//         //     currentGrowthVal = $('input[type=range]').val();
 
-var displayRes = function (decayRate, npv) {
-  $('#cashflow-list')
-      .append(' <li><span class="cashflow-list-left">' + decayRate + '%</span> &nbsp;<span class="cashflow-list-right">' + npv + '</span></li>')
-};
+//         //     // current decay slider value
+//         //     currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
 
-displayRes(25, 60000)
+//         //     $(decayValue).text(currentDecayVal + '%');
+//         //     console.log('current decay slider value: ' + currentDecayVal);
 
-/*
-get res vals for 
-  - decay rate (pull from slider)
-  - net present val (NPV) (set temp val)
-assign res to html li (within ul)
-display new res in new lines
+//         //     // return [currentGrowthVal, ];
 
-
-function endRes (decayRate, npv) {
-  append as li to ul
-  <li><span>decay rate</span><span>npv</span></li>
-}
-*/
+//         // });
+//     });
 
 
 
-// refactor to calc.js
-// setup function to return return rate Object
-// rate Object has rate.growth and rate.decay (so calc.rate.growth)
-// return value 
+// };
+
+// rangeSlider();
+
+
+
+
+
+// // CASHLOW HISTORY
+// var decayRate = 12,
+//     npv = 44000;
+
+// var displayRes = function (decayRate, npv) {
+//     $('#cashflow-list')
+//         .append(' <li><span class="cashflow-list-left">' + decayRate + '%</span> &nbsp;<span class="cashflow-list-right">' + npv + '</span></li>')
+// };
+
+// displayRes(25, 60000)
+
+// /*
+// get res vals for 
+//   - decay rate (pull from slider)
+//   - net present val (NPV) (set temp val)
+// assign res to html li (within ul)
+// display new res in new lines
+
+
+// function endRes (decayRate, npv) {
+//   append as li to ul
+//   <li><span>decay rate</span><span>npv</span></li>
+// }
+// */
