@@ -11,6 +11,10 @@
       $cashFlowList: null,
       $cashFlowAddBtn: null,
       $cashFlowRemoveBtn: null,
+      $cashFlowsCalculated: [],
+      $cashFlowsTotals: [],
+      $rateGrowth: null,
+      $rateDecay: null,
 
       // Charts
       $calcBtn: null,
@@ -28,6 +32,12 @@
         calc.$cashFlowList = $('#cash-flow-list');
         calc.$cashFlowAddBtn = $('#cash-flow-add-btn');
         calc.$calcBtn = $('#calc-btn');
+
+        calc.$slider = $('.range-slider');
+        calc.$range = $('.range-slider__range');
+        calc.$growthValue = $('.range-slider__value');
+        calc.$decayValue = $('.decay-rate__value');
+        calc.$resList = $('#calc-res');
 
         // Input should be focused on load
         calc.$cashFlowInput.focus();
@@ -65,10 +75,26 @@
           }
         });
 
+        // slider trigger
+        calc.$slider.each(function () {
+
+          calc.$growthValue.each(function () {
+            calc.initialRates();
+          });
+
+          calc.$range.on('input', function () {
+            calc.currentRates();
+          });
+        });
+
         // Go btn
         calc.$calcBtn.click(function(e) {
           e.stopPropagation();
           e.preventDefault();
+
+          calc.decayCashFlow(calc.$rateDecay);
+          calc.totalsCashFlows();
+          calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
 
           Highcharts.chart('chart-main', {
             chart: {
@@ -139,6 +165,117 @@
 
         console.log(calc.$cashFlows);
       },
+
+      initialRates: function () {
+        // intital growth slider value
+        var gValue = calc.$growthValue.next().attr('value');
+        calc.$growthValue.html(gValue + '%');
+        // console.log('intital growth slider value: ' + $('input[type=range]').val())
+        calc.$rateGrowth = gValue / 100;
+        //  console.log(calc.$rateGrowth);
+
+        // intital decay slider value
+        var dValue = ((1 - (1 / (1 + gValue / 100))) * 100).toFixed(0);
+        calc.$decayValue.html(dValue + '%');
+        // console.log('intital decay slider value: ' + dValue)
+        calc.$rateDecay = dValue / 100;
+        //  console.log(calc.$rateDecay);
+      },
+
+      currentRates: function () {
+        var currentGrowthVal, currentDecayVal;
+
+        // current growth slider value
+        //  $(this).prev(calc.$growthValue).html(this.value + '%');       
+
+        //  console.log('current growth slider value: ' + $('input[type=range]').val());
+        currentGrowthVal = $('input[type=range]').val();
+        calc.$growthValue.text(currentGrowthVal + '%');
+        calc.$rateGrowth = currentGrowthVal / 100;
+        console.log(calc.$rateGrowth);
+
+        // current decay slider value
+        currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
+        //  console.log('current decay slider value: ' + currentDecayVal);
+        calc.$decayValue.text(currentDecayVal + '%');
+        calc.$rateDecay = currentDecayVal / 100
+
+        console.log(calc.$rateDecay);
+      },
+
+      decayCashFlow: function (val) {
+        var i, newVal, finalVal;
+
+        for (i = 0; i < calc.$cashFlows.length; i++) {
+          if (i == 0) {
+            // index 0: decay rate not applied for the inital cashflow
+            calc.$cashFlowsCalculated.push(calc.$cashFlows[i])
+          } else {
+            // convert current cashflow val to decayed cashflow val 
+            newVal = calc.$cashFlows[i] / (Math.pow((1 - val), i));
+
+            finalVal = Number(newVal.toFixed(2));
+
+            calc.$cashFlowsCalculated.push(finalVal)
+          }
+        }
+
+        console.log("cash flows calculated:");
+        console.log(calc.$cashFlowsCalculated);
+      },
+
+      totalsCashFlows: function () {
+        var i, posVal, negVal, posSum, negSum, diff;
+        var posVals = [];
+        var negVals = [];
+
+        // sort values by pos/neg
+        for (i = 0; i < calc.$cashFlowsCalculated.length; i++) {
+          if (Math.sign(calc.$cashFlowsCalculated[i]) == 1) {
+            // push to posVals
+            posVal = calc.$cashFlowsCalculated[i];
+            posVals.push(posVal);
+
+          } else if (Math.sign(calc.$cashFlowsCalculated[i]) == -1) {
+            // push to negVals
+            negVal = calc.$cashFlowsCalculated[i];
+            negVals.push(negVal);
+          } else {
+            console.log('0 or NaN entered')
+          }
+        }
+
+        // array sums
+        const arrSum = arr => arr.reduce((a, b) => a + b, 0);
+
+        // positive sum + push
+        posSum = Number(arrSum(posVals).toFixed(2));
+        calc.$cashFlowsTotals.push(posSum);
+
+        // negative sum + push
+        negSum = Number(arrSum(negVals).toFixed(2));
+        calc.$cashFlowsTotals.push(negSum);
+
+        // pos/neg difference
+        diff = function (a, b) {
+          return Math.abs(a - b);
+        };
+        calc.$cashFlowsTotals.push(Number(diff(posSum, negSum).toFixed(2)));
+
+        console.log(calc.$cashFlowsTotals);
+      },
+
+      displayRes: function (decayRate, npv) {
+        var startHtml, midHtml, endHtml;
+
+        startHtml = '<li><span class="cashflow-list-left">';
+        midHtml = '%</span> &nbsp;<span class="cashflow-list-right">';
+        endHtml = '</span></li>';
+        
+        calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);
+
+        console.log((decayRate * 100), npv)
+      }
     };
   
     // Initialize calculator
