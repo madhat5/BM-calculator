@@ -96,7 +96,7 @@
           calc.totalsCashFlows();
           calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
 
-          Highcharts.chart('chart-main', {
+          var chart = Highcharts.chart('chart-main', {
             chart: {
                 type: 'column'
             },
@@ -126,6 +126,48 @@
         
             }]
           });
+
+          setTimeout(function() {
+            console.log('updating data');
+            chart.series[0].update({
+              data: calc.$cashFlowsCalculated
+            });
+          }, 2000);
+
+          console.log(chart.options.plotOptions);
+
+
+          setTimeout(function() {
+            // console.log(chart.plotOptions);
+            var data = [],
+                posTotal = calc.$cashFlowsTotals[0],
+                negTotal = calc.$cashFlowsTotals[1];
+
+            if (!(posTotal === 'NaN')) {
+              data.push(posTotal);
+            }
+
+            if (!(negTotal === 'NaN')) {
+              data.push(negTotal);
+            }
+
+
+            console.log('stacking chart');
+            console.log('posTotal')
+            console.log(posTotal);
+            console.log(posTotal == NaN)
+
+            console.log('negTotal')
+            console.log(negTotal);
+            console.log(negTotal == NaN)
+            
+            chart.series[0].update({
+              data: data
+            });
+            chart.options.plotOptions.column.stacking = 'normal';
+
+            console.log(chart.series[0].data);
+          }, 4000);
         });
       },
 
@@ -225,7 +267,7 @@
       },
 
       totalsCashFlows: function () {
-        var i, posVal, negVal, posSum, negSum, diff;
+        var i, posVal, negVal, posSum, posSumAvg, negSum, negSumAvg, diff;
         var posVals = [];
         var negVals = [];
 
@@ -250,17 +292,19 @@
 
         // positive sum + push
         posSum = Number(arrSum(posVals).toFixed(2));
-        calc.$cashFlowsTotals.push(posSum);
+        posSumAvg = Number((posSum / posVals.length).toFixed(2));
+        calc.$cashFlowsTotals.push(posSumAvg);
 
         // negative sum + push
         negSum = Number(arrSum(negVals).toFixed(2));
-        calc.$cashFlowsTotals.push(negSum);
+        negSumAvg = Number((negSum / negVals.length).toFixed(2));
+        calc.$cashFlowsTotals.push(negSumAvg);
 
         // pos/neg difference
         diff = function (a, b) {
           return Math.abs(a - b);
         };
-        calc.$cashFlowsTotals.push(Number(diff(posSum, negSum).toFixed(2)));
+        calc.$cashFlowsTotals.push(Number(diff(posSumAvg, negSumAvg).toFixed(2)));
 
         console.log(calc.$cashFlowsTotals);
       },
