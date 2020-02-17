@@ -26,6 +26,7 @@
         calc.$range = $('.range-slider__range');
         calc.$growthValue = $('.range-slider__value');
         calc.$decayValue = $('.decay-rate__value');
+        calc.$resList = $('#cashflow-list');
 
         // Input should be focused on load
         calc.$cashFlowInput.focus();
@@ -79,6 +80,7 @@
         calc.$calcStartBtn.click(function (e) {
           calc.decayCashFlow(calc.$rateDecay)
           calc.totalsCashFlows();
+          calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2])
         });
       },
 
@@ -134,25 +136,25 @@
         //  console.log(calc.$rateDecay);
       },
 
-      currentRates: function() {
+      currentRates: function () {
         var currentGrowthVal, currentDecayVal;
 
-         // current growth slider value
+        // current growth slider value
         //  $(this).prev(calc.$growthValue).html(this.value + '%');       
 
         //  console.log('current growth slider value: ' + $('input[type=range]').val());
-         currentGrowthVal = $('input[type=range]').val();
-         calc.$growthValue.text(currentGrowthVal+ '%' );
-         calc.$rateGrowth = currentGrowthVal / 100;
-         console.log(calc.$rateGrowth);
+        currentGrowthVal = $('input[type=range]').val();
+        calc.$growthValue.text(currentGrowthVal + '%');
+        calc.$rateGrowth = currentGrowthVal / 100;
+        console.log(calc.$rateGrowth);
 
-         // current decay slider value
-         currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
-         //  console.log('current decay slider value: ' + currentDecayVal);
-         calc.$decayValue.text(currentDecayVal + '%');
-         calc.$rateDecay = currentDecayVal / 100
+        // current decay slider value
+        currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
+        //  console.log('current decay slider value: ' + currentDecayVal);
+        calc.$decayValue.text(currentDecayVal + '%');
+        calc.$rateDecay = currentDecayVal / 100
 
-         console.log(calc.$rateDecay);
+        console.log(calc.$rateDecay);
       },
 
       decayCashFlow: function (val) {
@@ -214,6 +216,18 @@
         calc.$cashFlowsTotals.push(Number(diff(posSum, negSum).toFixed(2)));
 
         console.log(calc.$cashFlowsTotals);
+      },
+
+      displayRes: function (decayRate, npv) {
+        var startHtml, midHtml, endHtml;
+
+        startHtml = '<li><span class="cashflow-list-left">';
+        midHtml = '%</span> &nbsp;<span class="cashflow-list-right">';
+        endHtml = '</span></li>';
+        
+        calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);
+
+        console.log((decayRate * 100), npv)
       }
     };
 
