@@ -26,7 +26,7 @@
         calc.$range = $('.range-slider__range');
         calc.$growthValue = $('.range-slider__value');
         calc.$decayValue = $('.decay-rate__value');
-        calc.$resList = $('#cashflow-list');
+        calc.$resList = $('#calc-res');
 
         // Input should be focused on load
         calc.$cashFlowInput.focus();
