@@ -38,6 +38,7 @@
         calc.$growthValue = $('.range-slider__value');
         calc.$decayValue = $('.decay-rate__value');
         calc.$resList = $('#calc-res');
+        calc.$chart = $('#chart-main');
 
         calc.$sliderPopover = $("[data-toggle=popover]");
 
@@ -86,6 +87,12 @@
 
           calc.$range.on('input', function () {
             calc.currentRates();
+
+            console.log("slider triggered");
+
+            if ( !($(calc.$calcBtn).hasClass('calc-btn--active')) ) {
+              $(calc.$calcBtn).addClass('calc-btn--active');
+            }
           });
         });
 
@@ -101,12 +108,24 @@
           calc.totalsCashFlows();
           calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
 
-          var chart = Highcharts.chart('chart-main', {
+          $(calc.$chart).addClass('chart--active');
+
+          Highcharts.setOptions({
+            lang: {
+                thousandsSep: ','
+            }
+          });
+
+          var chart = Highcharts.chart('chart-container', {
             chart: {
                 type: 'column'
             },
+            title: {
+              text:''
+            },
             tooltip: {
-                // headerFormat: '<span style="font-size:10px">{point.y}</span>',
+                headerFormat: '',
+                pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
                 useHTML: true
             },
             yAxis: {
@@ -128,7 +147,6 @@
               negativeColor: '#E43B3F',
               data: calc.$cashFlows,
               threshold: null
-        
             }]
           });
 
@@ -137,10 +155,9 @@
             chart.series[0].update({
               data: calc.$cashFlowsCalculated
             });
-          }, 2000);
+          }, 3000);
 
           console.log(chart.options.plotOptions);
-
 
           setTimeout(function() {
             // console.log(chart.plotOptions);
@@ -156,6 +173,7 @@
               data.push(negTotal);
             }
 
+            $(calc.$chart).addClass('step-3');
 
             console.log('stacking chart');
             console.log('posTotal');
@@ -170,22 +188,28 @@
               data: data
             });
             chart.options.plotOptions.column.stacking = 'normal';
+            chart.options.plotOptions.column.threshold = 0;
 
             console.log(chart.series[0].data);
-          }, 4000);
+          }, 6000);
         });
       },
 
       // Cash Flows
+      addCommas: function(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      },
+
       addCashFlow: function(val) {
-        const valInt = new Number(val), // convert val string to a number
+        const valNoCommas = val.replace(',', ''),
+              valInt = new Number(valNoCommas), // convert val string to a number
               decimalInt = valInt.toFixed(2), // ensures 2 decimal places, returns string
               finalVal = new Number(decimalInt); // converting string back to number
 
         if (decimalInt === 'NaN') {
           alert('Please enter a valid number');
         } else {
-          const newCashFlowEl = '<li>$' + decimalInt + '<a href="#" class="remove-cash-flow"></a>';
+          const newCashFlowEl = '<li>$' + calc.addCommas(decimalInt) + '<a href="#" class="remove-cash-flow"></a>';
 
           $(calc.$cashFlowList).append(newCashFlowEl);
           
@@ -226,7 +250,8 @@
         calc.$decayValue.html(dValue + '%');
         // console.log('intital decay slider value: ' + dValue)
         calc.$rateDecay = dValue / 100;
-        //  console.log(calc.$rateDecay);
+        console.log("rate decay");
+        console.log(calc.$rateDecay);
       },
 
       currentRates: function () {
