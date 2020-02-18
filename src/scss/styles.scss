@@ -71,6 +71,20 @@ $red: #E43B3F;
     }
   }
 
+  .slider_tutorial {
+    display: block;
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    left: auto;
+    border: 1px solid #428bca;
+    border-radius:50%;
+    padding: 0 5px;
+    font-size: 14px;
+    font-weight: bolder;
+    color: #428bca;
+  }
+
   .box {
     position: relative;
     background: #ffffff;

@@ -39,6 +39,8 @@
         calc.$decayValue = $('.decay-rate__value');
         calc.$resList = $('#calc-res');
 
+        calc.$sliderPopover = $("[data-toggle=popover]");
+
         // Input should be focused on load
         calc.$cashFlowInput.focus();
 
@@ -86,6 +88,9 @@
             calc.currentRates();
           });
         });
+
+        // Slider tutorial
+        calc.$sliderPopover.popover();
 
         // Go btn
         calc.$calcBtn.click(function(e) {
@@ -153,13 +158,13 @@
 
 
             console.log('stacking chart');
-            console.log('posTotal')
+            console.log('posTotal');
             console.log(posTotal);
-            console.log(posTotal == NaN)
+            console.log(posTotal == NaN);
 
-            console.log('negTotal')
+            console.log('negTotal');
             console.log(negTotal);
-            console.log(negTotal == NaN)
+            console.log(negTotal == NaN);
             
             chart.series[0].update({
               data: data
@@ -240,7 +245,7 @@
         currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
         //  console.log('current decay slider value: ' + currentDecayVal);
         calc.$decayValue.text(currentDecayVal + '%');
-        calc.$rateDecay = currentDecayVal / 100
+        calc.$rateDecay = currentDecayVal / 100;
 
         console.log(calc.$rateDecay);
       },
@@ -251,14 +256,14 @@
         for (i = 0; i < calc.$cashFlows.length; i++) {
           if (i == 0) {
             // index 0: decay rate not applied for the inital cashflow
-            calc.$cashFlowsCalculated.push(calc.$cashFlows[i])
+            calc.$cashFlowsCalculated.push(calc.$cashFlows[i]);
           } else {
             // convert current cashflow val to decayed cashflow val 
             newVal = calc.$cashFlows[i] / (Math.pow((1 - val), i));
 
             finalVal = Number(newVal.toFixed(2));
 
-            calc.$cashFlowsCalculated.push(finalVal)
+            calc.$cashFlowsCalculated.push(finalVal);
           }
         }
 
@@ -283,7 +288,7 @@
             negVal = calc.$cashFlowsCalculated[i];
             negVals.push(negVal);
           } else {
-            console.log('0 or NaN entered')
+            console.log('0 or NaN entered');
           }
         }
 
@@ -318,7 +323,7 @@
         
         calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);
 
-        console.log((decayRate * 100), npv)
+        console.log((decayRate * 100), npv);
       }
     };
   

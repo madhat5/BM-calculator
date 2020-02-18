@@ -30,6 +30,10 @@ var paths = {
 		input: 'src/scss/*.scss',
 		output: 'dist/css/'
 	},
+	images: {
+		input: 'src/images/*.png',
+		output: 'dist/images/'
+	},
 	svgs: {
 		input: 'src/svg/*.svg',
 		output: 'dist/svg/'
