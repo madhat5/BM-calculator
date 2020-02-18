@@ -1,6 +1,8 @@
 // Fonts
-$bodyFont: 'Raleway', sans-serif;
-$headlineFont: 'Archivo Black', sans-serif;
+$bodyFont: 'Raleway',
+sans-serif;
+$headlineFont: 'Archivo Black',
+sans-serif;
 
 // Colors
 $grey: #efefef;
@@ -42,13 +44,13 @@ $red: #E43B3F;
   .container {
     font-family: $bodyFont;
   }
-  
+
   h2 {
     font-size: 38px;
     font-family: $headlineFont;
     text-transform: uppercase;
   }
-  
+
   h3,
   h4 {
     padding: 20px 0;
@@ -68,7 +70,7 @@ $red: #E43B3F;
       font-size: 14px;
     }
   }
-  
+
   .box {
     position: relative;
     background: #ffffff;
@@ -89,7 +91,7 @@ $red: #E43B3F;
   .med-box {
     min-height: 425px;
   }
-  
+
   .mini-box {
     min-height: 140px;
     padding: 0;
@@ -98,7 +100,7 @@ $red: #E43B3F;
   .lg-box {
     min-height: 593px;
   }
-  
+
   .border {
     background-color: #ffffff;
     border-radius: 10px;
@@ -131,7 +133,7 @@ $red: #E43B3F;
           color: $darkerGrey;
           border: 1px solid $darkerGrey;
           line-height: 1;
-          
+
           &:before {
             content: '-';
             position: absolute;
@@ -143,7 +145,7 @@ $red: #E43B3F;
         }
       }
     }
-  
+
     .calc-input-wrapper {
       position: relative;
 
@@ -177,7 +179,7 @@ $red: #E43B3F;
     span {
       position: relative;
       display: inline-block;
-      vertical-align: middle; 
+      vertical-align: middle;
       width: 26px;
       height: 26px;
       border: 1px solid black;
@@ -200,7 +202,9 @@ $red: #E43B3F;
 
   .chart-main {
 
-    .highcharts-credits { display: none; }
+    .highcharts-credits {
+      display: none;
+    }
 
     .highcharts-container {
       :not(svg) {
@@ -243,9 +247,42 @@ $red: #E43B3F;
 // ================
 // SLIDER
 // ================
+.range-slider {
+  width: 100%;
+}
 
+.range-slider__range {
+  -webkit-appearance: none;
+  width: 70%;
+  height: 25px;
+  border-radius: 4px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
 
+.range-slider__range:hover {
+  opacity: 1;
+}
 
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 25px;
+  border-radius: 3px;
+  background: #1e1e1e;
+  cursor: pointer;
+}
+
+.range-slider__range::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
 
 
 // ================
