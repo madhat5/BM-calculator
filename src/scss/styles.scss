@@ -215,14 +215,18 @@ $red: #E43B3F;
 
   .chart-main {
     position: relative;
+    height: 368px;
+    overflow: hidden;
 
     .highcharts-credits { display: none; }
 
     .highcharts-container {
       :not(svg) {
-        transform-origin: bottom;
+        transform-origin: left bottom;
       }
     }
+
+    .highcharts-background { fill: transparent; }
 
     &.chart--active {
       .instructions,
@@ -231,10 +235,64 @@ $red: #E43B3F;
       .chart-legend { display: block; }
     }
 
-    &.step-3 {
-      rect.highcharts-point { width: calc(100% - 40px); }
-      rect.highcharts-point:nth-child(2) {
-        x: 27.5;
+    .hidden-final-chart {
+      transform: translateY(0);
+
+      .highcharts-tracker {
+        rect {
+          stroke: none;
+          width: 100%;
+        }
+
+        rect:nth-child(1) { visibility: hidden; }
+      }
+    }
+
+    // #pos-wave-svg {
+    //   position: absolute;
+    //   z-index: 100;
+    //   left: 33px;
+    //   top: -30px;
+    //   width: 0px;
+    //   overflow: hidden;
+    //   transform: translateY(200%);
+    //   transition: all 1s ease-out;
+    //   transition-delay: .5s;
+    // }
+
+    rect {
+      transition: opacity .25s ease-out;
+    }
+
+    &.step-3 {      
+
+      .highcharts-tracker {
+        rect:nth-child(1) {
+          transition: all 1s ease-out;
+          transition-delay: .25s;
+        }
+
+        // rect {
+        //   transition: opacity .25s ease-out;
+        // }
+      }
+
+      .highcharts-container svg .highcharts-series-group > g {
+        transition: all 1s ease-in-out;
+        // transition-delay: .25s;
+      }
+
+      #pos-wave-svg {
+        width: calc(100% - 43px);
+        transform: translateY(0);
+        transition: all 1s ease-out;
+        transition-delay: .25s;
+      }
+
+      .hidden-final-chart {
+        transform: translate(0, -400px);
+        transition: transform 1s ease-out;
+        transition-delay: .15s;
       }
     }
 
@@ -277,6 +335,8 @@ $red: #E43B3F;
     }
 
     .calc-btn {
+      position: relative;
+      z-index: 300;
       display: block;
       outline: 0;
       border: 0;
@@ -294,6 +354,13 @@ $red: #E43B3F;
         opacity: 1;
         transition: opacity .25s ease-in-out;
       }
+    }
+  }
+
+  .hidden-final-chart {
+    rect.highcharts-point { width: calc(100% - 40px); }
+    rect.highcharts-point:nth-child(2) {
+      x: 0;
     }
   }
 }

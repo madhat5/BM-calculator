@@ -150,6 +150,57 @@
             }]
           });
 
+          // Hidden chart
+
+          var finalData = [],
+              posTotal = calc.$cashFlowsTotals[0],
+              negTotal = calc.$cashFlowsTotals[1];
+
+          if (!(posTotal === 'NaN')) {
+            finalData.push(posTotal);
+          }
+
+          if (!(negTotal === 'NaN')) {
+            finalData.push(negTotal);
+          }
+
+          var hiddenChart = Highcharts.chart('hidden-final-chart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+              text:''
+            },
+            tooltip: {
+                headerFormat: '',
+                pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
+                useHTML: true
+            },
+            yAxis: {
+              visible: false
+            },
+            xAxis: {
+              visible: false
+            },
+            plotOptions: {
+                column: {
+                    // pointPadding: 0.2,
+                    groupPadding: 0,
+                    borderWidth: 1,
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+              showInLegend: false,
+              color: '#4F5366',
+              negativeColor: '#E43B3F',
+              data: finalData,
+              threshold: 0
+            }]
+          });
+
+
+
           setTimeout(function() {
             console.log('updating data');
             chart.series[0].update({
@@ -157,40 +208,156 @@
             });
           }, 3000);
 
-          console.log(chart.options.plotOptions);
+          setTimeout(function() {
+            var bars = $($('.highcharts-tracker')[0]).children();
+
+            $(bars).attr('style', 'opacity: 0;');
+
+            setTimeout(function() {
+              $($('.highcharts-container svg .highcharts-series-group g')[0]).attr('style', 'transform: translateY(100%)');
+            }, 250);
+          }, 5000);
+
+          // console.log(chart.options.plotOptions);
 
           setTimeout(function() {
-            // console.log(chart.plotOptions);
-            var data = [],
-                posTotal = calc.$cashFlowsTotals[0],
-                negTotal = calc.$cashFlowsTotals[1];
+            // // console.log(chart.plotOptions);
+            // var data = [],
+            //     posTotal = calc.$cashFlowsTotals[0],
+            //     negTotal = calc.$cashFlowsTotals[1];
 
-            if (!(posTotal === 'NaN')) {
-              data.push(posTotal);
-            }
+            // if (!(posTotal === 'NaN')) {
+            //   data.push(posTotal);
+            // }
 
-            if (!(negTotal === 'NaN')) {
-              data.push(negTotal);
-            }
+            // if (!(negTotal === 'NaN')) {
+            //   data.push(negTotal);
+            // }
 
             $(calc.$chart).addClass('step-3');
 
-            console.log('stacking chart');
-            console.log('posTotal');
-            console.log(posTotal);
-            console.log(posTotal == NaN);
+            // console.log('stacking chart');
+            // console.log('posTotal');
+            // console.log(posTotal);
+            // console.log(posTotal == NaN);
 
-            console.log('negTotal');
-            console.log(negTotal);
-            console.log(negTotal == NaN);
+            // console.log('negTotal');
+            // console.log(negTotal);
+            // console.log(negTotal == NaN);
             
-            chart.series[0].update({
-              data: data
-            });
-            chart.options.plotOptions.column.stacking = 'normal';
-            chart.options.plotOptions.column.threshold = 0;
+            // chart.series[0].update({
+            //   data: data
+            // });
+            // chart.options.plotOptions.column.stacking = 'normal';
+            // chart.options.plotOptions.column.threshold = 0;
 
-            console.log(chart.series[0].data);
+            // console.log(chart.series[0].data);
+
+            var firstBar = $($('.highcharts-tracker')[0]).children()[0],
+                // otherChildren = $($('.highcharts-tracker')[0]).children().not(firstBar),
+                otherChildren = $($('.highcharts-tracker')[0]).children(),
+                hiddenPos = $($('.highcharts-tracker')[1]).children()[0],
+                hpHeight = hiddenPos.getAttribute('height'),
+                hpXPos = hiddenPos.getAttribute('x'),
+                hpYPos = hiddenPos.getAttribute('y'),
+                hiddenNeg = $($('.highcharts-tracker')[1]).children()[1],
+                hnHeight = hiddenNeg.getAttribute('height'),
+                hnXPos = hiddenNeg.getAttribute('x'),
+                hnYPos = hiddenNeg.getAttribute('y'),
+                hnFill = hiddenNeg.getAttribute('fill'),
+                hnStroke = hiddenNeg.getAttribute('stroke'),
+                hnStrokeWidth = hiddenNeg.getAttribute('stroke-width');
+
+            // var posPath = document.createElement('path');
+
+            // $(posPath).attr('id', 'pos-wave');
+
+            // var posPath = '<svg id="pos-wave-svg"><path id="pos-wave" style="color: #707070;"></svg>';
+            // var posPath = '<path id="pos-wave">';
+
+            var posPath = document.createElementNS("http://www.w3.org/2000/svg", "path"),
+                negPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+            posPath.setAttribute('id', 'pos-wave');
+            negPath.setAttribute('id', 'neg-wave');
+            negPath.setAttribute('style', 'transform: translateY(' + Math.round(hnYPos - 60) + 'px);');
+
+            $($('.highcharts-container svg .highcharts-series-group g')[0]).prepend(posPath);
+            $($('#hidden-final-chart .highcharts-series-group g')[0]).append(negPath);
+
+            // var newHTML = $($('.highcharts-container svg')[0]).html();
+
+            // $($('.highcharts-container svg')[0]).children()
+
+            // setTimeout(function() {
+              var posWave = $('#pos-wave').wavify({
+                height: 30,
+                bones: 7,
+                amplitude: 40,
+                color: '#4F5366',
+                // color: '#000000',
+                speed: .55
+              });
+
+              var negWave = $('#neg-wave').wavify({
+                height: 15,
+                bones: 7,
+                amplitude: 40,
+                color: '#E43B3F',
+                speed: .55
+              });
+            // }, 1000);
+
+            setTimeout(function() {
+              // posWave.kill();
+              // negWave.kill();
+            }, 2000);
+
+            // $(otherChildren).attr('style', 'opacity: 0;');
+
+            // $('#hidden-final-chart').attr('style', 'transform: translate(0, -400px);');
+
+            // Modify positive bar
+            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('width', '100%');
+            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('height', hpHeight);
+            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('x', hpXPos);
+            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('y', hpYPos);
+
+            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('style', 'transform: translate(' + Math.round(hpXPos / 2) + ', 0);');
+
+            // Create and animate negative bar
+
+            // var newNegBar = document.createElement('rect');
+
+            // newNegBar.setAttribute('x', hpXPos);
+            // newNegBar.setAttribute('y', hnYPos);
+            // newNegBar.setAttribute('height', hnHeight);
+            // newNegBar.setAttribute('width', '100%');
+            // newNegBar.setAttribute('fill', hnFill);
+            // newNegBar.setAttribute('stroke', hnStroke);
+            // newNegBar.setAttribute('stroke-width', hnStrokeWidth);
+            // newNegBar.setAttribute('opacity', '1');
+            // newNegBar.setAttribute('class', 'highcharts-point highcharts-negative');
+
+            // var newNegBar = $(document.createElementNS("http://www.w3.org/2000/svg", "rect")).attr({
+            //   x: hpXPos,
+            //   y: hnYPos,
+            //   width: '100%',
+            //   height: hnHeight,
+            //   stroke: hnStroke,
+            //   strokeWidth: hnStrokeWidth,
+            //   opacity: 1,
+            //   fill: hnFill,
+            //   class: 'highcharts-point highcharts-negative'
+            // });
+
+            // setTimeout(function() {
+              // $('.highcharts-tracker')[0].append(newNegBar);
+              
+              // $($('.highcharts-tracker')[0]).html(function() { return this.innerHTML; });
+            //   console.log('append');
+            // }, 2000);
+
           }, 6000);
         });
       },
