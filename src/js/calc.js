@@ -343,7 +343,7 @@
         var startHtml, midHtml, endHtml;
 
         startHtml = '<li><span class="cashflow-list-left">';
-        midHtml = '%</span> &nbsp;<span class="cashflow-list-right">';
+        midHtml = '%</span> &nbsp;<span class="cashflow-list-right">$';
         endHtml = '</span></li>';
         
         calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);

@@ -1,6 +1,8 @@
 // Fonts
-$bodyFont: 'Raleway', sans-serif;
-$headlineFont: 'Archivo Black', sans-serif;
+$bodyFont: 'Raleway',
+sans-serif;
+$headlineFont: 'Archivo Black',
+sans-serif;
 
 // Colors
 $grey: #efefef;
@@ -43,13 +45,13 @@ $red: #E43B3F;
   .container {
     font-family: $bodyFont;
   }
-  
+
   h2 {
     font-size: 38px;
     font-family: $headlineFont;
     text-transform: uppercase;
   }
-  
+
   h3,
   h4 {
     padding: 20px 0;
@@ -77,13 +79,13 @@ $red: #E43B3F;
     right: 20px;
     left: auto;
     border: 1px solid #428bca;
-    border-radius:50%;
+    border-radius: 50%;
     padding: 0 5px;
     font-size: 14px;
     font-weight: bolder;
     color: #428bca;
   }
-  
+
   .box {
     position: relative;
     background: #ffffff;
@@ -104,7 +106,7 @@ $red: #E43B3F;
   .med-box {
     min-height: 425px;
   }
-  
+
   .mini-box {
     min-height: 140px;
     padding: 0;
@@ -113,7 +115,7 @@ $red: #E43B3F;
   .lg-box {
     min-height: 633px;
   }
-  
+
   .border {
     background-color: #ffffff;
     border-radius: 10px;
@@ -146,7 +148,7 @@ $red: #E43B3F;
           color: $darkerGrey;
           border: 1px solid $darkerGrey;
           line-height: 1;
-          
+
           &:before {
             content: '-';
             position: absolute;
@@ -158,7 +160,7 @@ $red: #E43B3F;
         }
       }
     }
-  
+
     .calc-input-wrapper {
       position: relative;
 
@@ -192,7 +194,7 @@ $red: #E43B3F;
     span {
       position: relative;
       display: inline-block;
-      vertical-align: middle; 
+      vertical-align: middle;
       width: 26px;
       height: 26px;
       border: 1px solid black;
@@ -216,7 +218,9 @@ $red: #E43B3F;
   .chart-main {
     position: relative;
 
-    .highcharts-credits { display: none; }
+    .highcharts-credits {
+      display: none;
+    }
 
     .highcharts-container {
       :not(svg) {
@@ -225,14 +229,22 @@ $red: #E43B3F;
     }
 
     &.chart--active {
-      .instructions,
-      .calc-btn { display: none; }
 
-      .chart-legend { display: block; }
+      .instructions,
+      .calc-btn {
+        display: none;
+      }
+
+      .chart-legend {
+        display: block;
+      }
     }
 
     &.step-3 {
-      rect.highcharts-point { width: calc(100% - 40px); }
+      rect.highcharts-point {
+        width: calc(100% - 40px);
+      }
+
       rect.highcharts-point:nth-child(2) {
         x: 27.5;
       }
@@ -355,23 +367,33 @@ $red: #E43B3F;
 
 
 // ================
-// CASHFLOW RESULTS
+// HISTORY RES
 // ================
-
-.res-title {
-  font-size: 12px;
+.hist-labels {
+  padding: 5px 10px;
+  position: relative;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  text-align: center;
   display: inline-block;
-
 }
 
-.res-title-left {
-  text-align: left;
-  margin-right: 8px;
+.hist-labels_left {
+  float: left;
 }
 
-.res-title-right {
-  text-align: right;
-  margin-left: 8px;
+.hist-labels_right {
+  float: right;
+}
+
+.calc-res {
+  list-style: none;
+
+  span {
+
+    font-weight: 300;
+  }
 }
 
 #cashflow-list {
@@ -382,8 +404,10 @@ $red: #E43B3F;
 
 .cashflow-list-left {
   padding-right: 20px;
+  // float: left;
 }
 
 .cashflow-list-right {
-  padding-left: 20px;
+  padding-left: 45px;
+  // float: right;
 }
