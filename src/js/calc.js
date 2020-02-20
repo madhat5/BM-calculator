@@ -211,7 +211,7 @@
           setTimeout(function() {
             var bars = $($('.highcharts-tracker')[0]).children();
 
-            $(bars).attr('style', 'opacity: 0;');
+            $(bars).attr('style', 'transform: scaleY(0); transform-origin: bottom;');
 
             setTimeout(function() {
               $($('.highcharts-container svg .highcharts-series-group g')[0]).attr('style', 'transform: translateY(100%)');
@@ -358,7 +358,7 @@
             //   console.log('append');
             // }, 2000);
 
-          }, 6000);
+          }, 5300);
         });
       },
 
