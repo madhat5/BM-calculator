@@ -422,23 +422,34 @@ $red: #E43B3F;
 
 
 // ================
-// CASHFLOW RESULTS
+// HISTORY RES
 // ================
 
-.res-title {
-  font-size: 12px;
+.hist-labels {
+  padding: 5px 10px;
+  position: relative;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  text-align: center;
   display: inline-block;
-
 }
 
-.res-title-left {
-  text-align: left;
-  margin-right: 8px;
+.hist-labels_left {
+  float: left;
 }
 
-.res-title-right {
-  text-align: right;
-  margin-left: 8px;
+.hist-labels_right {
+  float: right;
+}
+
+.calc-res {
+  list-style: none;
+
+  span {
+
+    font-weight: 300;
+  }
 }
 
 #cashflow-list {
@@ -452,5 +463,5 @@ $red: #E43B3F;
 }
 
 .cashflow-list-right {
-  padding-left: 20px;
+  padding-left: 45px;
 }
