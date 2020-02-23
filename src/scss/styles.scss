@@ -7,6 +7,7 @@ $grey: #efefef;
 $darkerGrey: #B3B3B3;
 $darkestGrey: #707070;
 $red: #E43B3F;
+$teal: #47E2BE;
 
 // ================
 // GENERAL
@@ -235,6 +236,10 @@ $red: #E43B3F;
       .chart-legend { display: block; }
     }
 
+    // .chart-container {
+    //   .highcharts-negative { y: 0; }
+    // }
+
     .hidden-final-chart {
       transform: translateY(0);
 
@@ -242,11 +247,24 @@ $red: #E43B3F;
         rect {
           stroke: none;
           width: 100%;
+          x: 0;
         }
 
-        rect:nth-child(1) { visibility: hidden; }
+        rect:nth-child(1) {
+          // visibility: hidden;
+          x: 0;
+        }
       }
     }
+
+    #pos-wave {
+      transform: translateY(-40px) scale(1);
+    }
+
+    // #pos-wave,
+    // #neg-wave {
+    //   transition: all .25s ease-in-out;
+    // }
 
     // #pos-wave-svg {
     //   position: absolute;
@@ -361,6 +379,33 @@ $red: #E43B3F;
     rect.highcharts-point { width: calc(100% - 40px); }
     rect.highcharts-point:nth-child(2) {
       x: 0;
+    }
+
+    .chart-final-message {
+      // position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      // opacity: 0;
+      transition: all .25s ease-in-out;
+
+      .final-header {
+        font-size: 20px;
+        margin-bottom: 0;
+      }
+
+      #final-value {
+        display: block;
+        font-size: 60px;
+        padding-bottom: 10px;
+      }
+
+      .final-message {
+        font-weight: 700;
+        color: $teal;
+        font-size: 22px;
+      }
     }
   }
 }

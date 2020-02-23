@@ -7,11 +7,13 @@
 
       // Cash flows
       $cashFlows: [],
+      $cashFlowsPos: [],
       $cashFlowInput: null,
       $cashFlowList: null,
       $cashFlowAddBtn: null,
       $cashFlowRemoveBtn: null,
       $cashFlowsCalculated: [],
+      $cashFlowsCalculatedPos: [],
       $cashFlowsTotals: [],
       $rateGrowth: null,
       $rateDecay: null,
@@ -104,6 +106,25 @@
           e.stopPropagation();
           e.preventDefault();
 
+          if ($('#bar-style')) {
+            var barStyle = document.createElement('style');
+
+            barStyle.id = 'bar-style';
+            barStyle.type = 'text/css';
+  
+            document.getElementsByTagName('head')[0].appendChild(barStyle);
+          } else {
+            $('#bar-style').remove();
+          }
+
+          calc.$cashFlows.forEach(function(cashFlow, index) {
+            if (cashFlow < 0) {
+              var barCss = '#chart-container .highcharts-series rect:nth-child(' + (index + 1) + ') { fill: #E43B3F; }';
+
+              barStyle.appendChild(document.createTextNode(barCss));
+            }
+          })
+
           calc.decayCashFlow(calc.$rateDecay);
           calc.totalsCashFlows();
           calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
@@ -145,7 +166,7 @@
               showInLegend: false,
               color: '#4F5366',
               negativeColor: '#E43B3F',
-              data: calc.$cashFlows,
+              data: calc.$cashFlowsPos,
               threshold: null
             }]
           });
@@ -199,13 +220,13 @@
             }]
           });
 
-
-
           setTimeout(function() {
             console.log('updating data');
             chart.series[0].update({
-              data: calc.$cashFlowsCalculated
+              data: calc.$cashFlowsCalculatedPos
             });
+
+            console.log(calc.$cashFlowsCalculatedPos);
           }, 3000);
 
           setTimeout(function() {
@@ -218,7 +239,7 @@
             }, 250);
           }, 5000);
 
-          // console.log(chart.options.plotOptions);
+          // // console.log(chart.options.plotOptions);
 
           setTimeout(function() {
             // // console.log(chart.plotOptions);
@@ -236,23 +257,6 @@
 
             $(calc.$chart).addClass('step-3');
 
-            // console.log('stacking chart');
-            // console.log('posTotal');
-            // console.log(posTotal);
-            // console.log(posTotal == NaN);
-
-            // console.log('negTotal');
-            // console.log(negTotal);
-            // console.log(negTotal == NaN);
-            
-            // chart.series[0].update({
-            //   data: data
-            // });
-            // chart.options.plotOptions.column.stacking = 'normal';
-            // chart.options.plotOptions.column.threshold = 0;
-
-            // console.log(chart.series[0].data);
-
             var firstBar = $($('.highcharts-tracker')[0]).children()[0],
                 // otherChildren = $($('.highcharts-tracker')[0]).children().not(firstBar),
                 otherChildren = $($('.highcharts-tracker')[0]).children(),
@@ -268,13 +272,6 @@
                 hnStroke = hiddenNeg.getAttribute('stroke'),
                 hnStrokeWidth = hiddenNeg.getAttribute('stroke-width');
 
-            // var posPath = document.createElement('path');
-
-            // $(posPath).attr('id', 'pos-wave');
-
-            // var posPath = '<svg id="pos-wave-svg"><path id="pos-wave" style="color: #707070;"></svg>';
-            // var posPath = '<path id="pos-wave">';
-
             var posPath = document.createElementNS("http://www.w3.org/2000/svg", "path"),
                 negPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
@@ -282,7 +279,7 @@
             negPath.setAttribute('id', 'neg-wave');
             negPath.setAttribute('style', 'transform: translateY(' + Math.round(hnYPos - 60) + 'px);');
 
-            $($('.highcharts-container svg .highcharts-series-group g')[0]).prepend(posPath);
+            $($('#hidden-final-chart .highcharts-series-group g')[0]).prepend(posPath);
             $($('#hidden-final-chart .highcharts-series-group g')[0]).append(negPath);
 
             // var newHTML = $($('.highcharts-container svg')[0]).html();
@@ -290,75 +287,67 @@
             // $($('.highcharts-container svg')[0]).children()
 
             // setTimeout(function() {
-              var posWave = $('#pos-wave').wavify({
-                height: 30,
-                bones: 7,
-                amplitude: 40,
-                color: '#4F5366',
-                // color: '#000000',
-                speed: .55
-              });
+              // var posWave = $('#pos-wave').wavify({
+              //   height: 30,
+              //   bones: 7,
+              //   amplitude: 40,
+              //   color: '#4F5366',
+              //   // color: '#000000',
+              //   speed: .55
+              // });
 
-              var negWave = $('#neg-wave').wavify({
-                height: 15,
-                bones: 7,
-                amplitude: 40,
-                color: '#E43B3F',
-                speed: .55
-              });
+              // var negWave = $('#neg-wave').wavify({
+              //   height: 15,
+              //   bones: 7,
+              //   amplitude: 40,
+              //   color: '#E43B3F',
+              //   speed: .55
+              // });
             // }, 1000);
 
             setTimeout(function() {
-              // posWave.kill();
-              // negWave.kill();
-            }, 2000);
+              // $('#pos-wave').attr('style', 'transform: scaleY(0)');
+              // $('#neg-wave').attr('style', 'transform: scaleY(0)');
+            }, 1000);
 
             // $(otherChildren).attr('style', 'opacity: 0;');
 
             // $('#hidden-final-chart').attr('style', 'transform: translate(0, -400px);');
 
             // Modify positive bar
-            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('width', '100%');
-            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('height', hpHeight);
-            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('x', hpXPos);
-            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('y', hpYPos);
+            // $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('width', '100%');
+            // $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('height', hpHeight);
+            // $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('x', hpXPos);
+            // $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('y', hpYPos);
 
-            $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('style', 'transform: translate(' + Math.round(hpXPos / 2) + ', 0);');
-
-            // Create and animate negative bar
-
-            // var newNegBar = document.createElement('rect');
-
-            // newNegBar.setAttribute('x', hpXPos);
-            // newNegBar.setAttribute('y', hnYPos);
-            // newNegBar.setAttribute('height', hnHeight);
-            // newNegBar.setAttribute('width', '100%');
-            // newNegBar.setAttribute('fill', hnFill);
-            // newNegBar.setAttribute('stroke', hnStroke);
-            // newNegBar.setAttribute('stroke-width', hnStrokeWidth);
-            // newNegBar.setAttribute('opacity', '1');
-            // newNegBar.setAttribute('class', 'highcharts-point highcharts-negative');
-
-            // var newNegBar = $(document.createElementNS("http://www.w3.org/2000/svg", "rect")).attr({
-            //   x: hpXPos,
-            //   y: hnYPos,
-            //   width: '100%',
-            //   height: hnHeight,
-            //   stroke: hnStroke,
-            //   strokeWidth: hnStrokeWidth,
-            //   opacity: 1,
-            //   fill: hnFill,
-            //   class: 'highcharts-point highcharts-negative'
-            // });
-
-            // setTimeout(function() {
-              // $('.highcharts-tracker')[0].append(newNegBar);
-              
-              // $($('.highcharts-tracker')[0]).html(function() { return this.innerHTML; });
-            //   console.log('append');
-            // }, 2000);
+            // $('.highcharts-container svg .highcharts-series-group g')[0].setAttribute('style', 'transform: translate(' + Math.round(hpXPos / 2) + ', 0);');
 
           }, 5300);
+
+          setTimeout(function() {
+            const finalSum = calc.$cashFlowsTotals[0] - calc.$cashFlowsTotals[1],
+                  finalHTML = '<div class="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span><p class="final-message">You\'ve found the IRR!</p></div>';
+
+            console.log('calc.$cashFlowsTotals[1]');
+            console.log(calc.$cashFlowsTotals[1]);
+
+            console.log('calc.$cashFlowsTotals[0]');
+            console.log(calc.$cashFlowsTotals[0]);
+
+
+            console.log('finalSum');
+            console.log(finalSum);
+
+            hiddenChart.series[0].update({
+              data: [finalSum, finalData[1]]
+            });
+
+            $('#hidden-final-chart').prepend(finalHTML);
+
+            $('#hidden-final-chart .highcharts-series .highcharts-negative').css('transform', 'scaleY(0)');
+            $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
+
+          }, 8500);
         });
       },
 
@@ -381,6 +370,7 @@
           $(calc.$cashFlowList).append(newCashFlowEl);
           
           calc.$cashFlows.push(finalVal.valueOf());
+          calc.$cashFlowsPos.push(Math.abs(finalVal.valueOf()));
   
           calc.$cashFlowInput.val('');
 
@@ -389,6 +379,7 @@
           calc.$cashFlowInput.focus();
   
           console.log(calc.$cashFlows);
+          console.log(calc.$cashFlowsPos);
         }
       },
 
@@ -449,6 +440,7 @@
           if (i == 0) {
             // index 0: decay rate not applied for the inital cashflow
             calc.$cashFlowsCalculated.push(calc.$cashFlows[i]);
+            calc.$cashFlowsCalculatedPos.push(Math.abs(calc.$cashFlows[i]));
           } else {
             // convert current cashflow val to decayed cashflow val 
             newVal = calc.$cashFlows[i] / (Math.pow((1 - val), i));
@@ -456,6 +448,7 @@
             finalVal = Number(newVal.toFixed(2));
 
             calc.$cashFlowsCalculated.push(finalVal);
+            calc.$cashFlowsCalculatedPos.push(Math.abs(finalVal));
           }
         }
 
