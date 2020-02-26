@@ -1,5 +1,5 @@
 (function ($) {
-  $( document ).ready(function() {
+  $(document).ready(function () {
     const calc = {
       // 
       // Calc properties - default values so nothing breaks
@@ -18,13 +18,13 @@
 
       // Charts
       $calcBtn: null,
-    
+
       // 
       // Methods
       // 
 
       // Init
-      init: function() {
+      init: function () {
         console.log("calc init");
 
         // On init, assign the prop variables to actual HTML elements
@@ -47,7 +47,7 @@
 
         // Event listeners
         // Add cash flow click
-        calc.$cashFlowAddBtn.click(function(e) {
+        calc.$cashFlowAddBtn.click(function (e) {
           e.preventDefault();
           e.stopPropagation();
 
@@ -57,9 +57,9 @@
         });
 
         // Remove cash flow click
-        calc.$cashFlowList.click(function(e) {
+        calc.$cashFlowList.click(function (e) {
           const target = e.target;
-          
+
           if (target.classList.contains('remove-cash-flow')) {
             const parent = target.parentElement;
 
@@ -68,7 +68,7 @@
         });
 
         // Enter key press
-        calc.$cashFlowInput.keypress(function(e) {
+        calc.$cashFlowInput.keypress(function (e) {
           const keycode = (event.keyCode ? event.keyCode : event.which);
 
           if (keycode === 13) {
@@ -90,7 +90,7 @@
 
             console.log("slider triggered");
 
-            if ( !($(calc.$calcBtn).hasClass('calc-btn--active')) ) {
+            if (!($(calc.$calcBtn).hasClass('calc-btn--active'))) {
               $(calc.$calcBtn).addClass('calc-btn--active');
             }
           });
@@ -100,7 +100,7 @@
         calc.$sliderPopover.popover();
 
         // Go btn
-        calc.$calcBtn.click(function(e) {
+        calc.$calcBtn.click(function (e) {
           e.stopPropagation();
           e.preventDefault();
 
@@ -112,21 +112,21 @@
 
           Highcharts.setOptions({
             lang: {
-                thousandsSep: ','
+              thousandsSep: ','
             }
           });
 
           var chart = Highcharts.chart('chart-container', {
             chart: {
-                type: 'column'
+              type: 'column'
             },
             title: {
-              text:''
+              text: ''
             },
             tooltip: {
-                headerFormat: '',
-                pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
-                useHTML: true
+              headerFormat: '',
+              pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
+              useHTML: true
             },
             yAxis: {
               visible: false
@@ -135,11 +135,11 @@
               visible: false
             },
             plotOptions: {
-                column: {
-                    // pointPadding: 0.2,
-                    groupPadding: 0,
-                    borderWidth: 1
-                }
+              column: {
+                // pointPadding: 0.2,
+                groupPadding: 0,
+                borderWidth: 1
+              }
             },
             series: [{
               showInLegend: false,
@@ -153,8 +153,8 @@
           // Hidden chart
 
           var finalData = [],
-              posTotal = calc.$cashFlowsTotals[0],
-              negTotal = calc.$cashFlowsTotals[1];
+            posTotal = calc.$cashFlowsTotals[0],
+            negTotal = calc.$cashFlowsTotals[1];
 
           if (!(posTotal === 'NaN')) {
             finalData.push(posTotal);
@@ -166,15 +166,15 @@
 
           var hiddenChart = Highcharts.chart('hidden-final-chart', {
             chart: {
-                type: 'column'
+              type: 'column'
             },
             title: {
-              text:''
+              text: ''
             },
             tooltip: {
-                headerFormat: '',
-                pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
-                useHTML: true
+              headerFormat: '',
+              pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
+              useHTML: true
             },
             yAxis: {
               visible: false
@@ -183,12 +183,12 @@
               visible: false
             },
             plotOptions: {
-                column: {
-                    // pointPadding: 0.2,
-                    groupPadding: 0,
-                    borderWidth: 1,
-                    stacking: 'normal'
-                }
+              column: {
+                // pointPadding: 0.2,
+                groupPadding: 0,
+                borderWidth: 1,
+                stacking: 'normal'
+              }
             },
             series: [{
               showInLegend: false,
@@ -201,26 +201,26 @@
 
 
 
-          setTimeout(function() {
+          setTimeout(function () {
             console.log('updating data');
             chart.series[0].update({
               data: calc.$cashFlowsCalculated
             });
           }, 3000);
 
-          setTimeout(function() {
+          setTimeout(function () {
             var bars = $($('.highcharts-tracker')[0]).children();
 
             $(bars).attr('style', 'transform: scaleY(0); transform-origin: bottom;');
 
-            setTimeout(function() {
+            setTimeout(function () {
               $($('.highcharts-container svg .highcharts-series-group g')[0]).attr('style', 'transform: translateY(100%)');
             }, 250);
           }, 5000);
 
           // console.log(chart.options.plotOptions);
 
-          setTimeout(function() {
+          setTimeout(function () {
             // // console.log(chart.plotOptions);
             // var data = [],
             //     posTotal = calc.$cashFlowsTotals[0],
@@ -244,7 +244,7 @@
             // console.log('negTotal');
             // console.log(negTotal);
             // console.log(negTotal == NaN);
-            
+
             // chart.series[0].update({
             //   data: data
             // });
@@ -254,19 +254,19 @@
             // console.log(chart.series[0].data);
 
             var firstBar = $($('.highcharts-tracker')[0]).children()[0],
-                // otherChildren = $($('.highcharts-tracker')[0]).children().not(firstBar),
-                otherChildren = $($('.highcharts-tracker')[0]).children(),
-                hiddenPos = $($('.highcharts-tracker')[1]).children()[0],
-                hpHeight = hiddenPos.getAttribute('height'),
-                hpXPos = hiddenPos.getAttribute('x'),
-                hpYPos = hiddenPos.getAttribute('y'),
-                hiddenNeg = $($('.highcharts-tracker')[1]).children()[1],
-                hnHeight = hiddenNeg.getAttribute('height'),
-                hnXPos = hiddenNeg.getAttribute('x'),
-                hnYPos = hiddenNeg.getAttribute('y'),
-                hnFill = hiddenNeg.getAttribute('fill'),
-                hnStroke = hiddenNeg.getAttribute('stroke'),
-                hnStrokeWidth = hiddenNeg.getAttribute('stroke-width');
+              // otherChildren = $($('.highcharts-tracker')[0]).children().not(firstBar),
+              otherChildren = $($('.highcharts-tracker')[0]).children(),
+              hiddenPos = $($('.highcharts-tracker')[1]).children()[0],
+              hpHeight = hiddenPos.getAttribute('height'),
+              hpXPos = hiddenPos.getAttribute('x'),
+              hpYPos = hiddenPos.getAttribute('y'),
+              hiddenNeg = $($('.highcharts-tracker')[1]).children()[1],
+              hnHeight = hiddenNeg.getAttribute('height'),
+              hnXPos = hiddenNeg.getAttribute('x'),
+              hnYPos = hiddenNeg.getAttribute('y'),
+              hnFill = hiddenNeg.getAttribute('fill'),
+              hnStroke = hiddenNeg.getAttribute('stroke'),
+              hnStrokeWidth = hiddenNeg.getAttribute('stroke-width');
 
             // var posPath = document.createElement('path');
 
@@ -276,7 +276,7 @@
             // var posPath = '<path id="pos-wave">';
 
             var posPath = document.createElementNS("http://www.w3.org/2000/svg", "path"),
-                negPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+              negPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
             posPath.setAttribute('id', 'pos-wave');
             negPath.setAttribute('id', 'neg-wave');
@@ -290,25 +290,25 @@
             // $($('.highcharts-container svg')[0]).children()
 
             // setTimeout(function() {
-              var posWave = $('#pos-wave').wavify({
-                height: 30,
-                bones: 7,
-                amplitude: 40,
-                color: '#4F5366',
-                // color: '#000000',
-                speed: .55
-              });
+            var posWave = $('#pos-wave').wavify({
+              height: 30,
+              bones: 7,
+              amplitude: 40,
+              color: '#4F5366',
+              // color: '#000000',
+              speed: .55
+            });
 
-              var negWave = $('#neg-wave').wavify({
-                height: 15,
-                bones: 7,
-                amplitude: 40,
-                color: '#E43B3F',
-                speed: .55
-              });
+            var negWave = $('#neg-wave').wavify({
+              height: 15,
+              bones: 7,
+              amplitude: 40,
+              color: '#E43B3F',
+              speed: .55
+            });
             // }, 1000);
 
-            setTimeout(function() {
+            setTimeout(function () {
               // posWave.kill();
               // negWave.kill();
             }, 2000);
@@ -352,9 +352,9 @@
             // });
 
             // setTimeout(function() {
-              // $('.highcharts-tracker')[0].append(newNegBar);
-              
-              // $($('.highcharts-tracker')[0]).html(function() { return this.innerHTML; });
+            // $('.highcharts-tracker')[0].append(newNegBar);
+
+            // $($('.highcharts-tracker')[0]).html(function() { return this.innerHTML; });
             //   console.log('append');
             // }, 2000);
 
@@ -363,15 +363,15 @@
       },
 
       // Cash Flows
-      addCommas: function(num) {
+      addCommas: function (num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       },
 
-      addCashFlow: function(val) {
+      addCashFlow: function (val) {
         const valNoCommas = val.replace(',', ''),
-              valInt = new Number(valNoCommas), // convert val string to a number
-              decimalInt = valInt.toFixed(2), // ensures 2 decimal places, returns string
-              finalVal = new Number(decimalInt); // converting string back to number
+          valInt = new Number(valNoCommas), // convert val string to a number
+          decimalInt = valInt.toFixed(2), // ensures 2 decimal places, returns string
+          finalVal = new Number(decimalInt); // converting string back to number
 
         if (decimalInt === 'NaN') {
           alert('Please enter a valid number');
@@ -379,20 +379,20 @@
           const newCashFlowEl = '<li>$' + calc.addCommas(decimalInt) + '<a href="#" class="remove-cash-flow"></a>';
 
           $(calc.$cashFlowList).append(newCashFlowEl);
-          
+
           calc.$cashFlows.push(finalVal.valueOf());
-  
+
           calc.$cashFlowInput.val('');
 
           $(calc.$cashFlowList).scrollTop($(calc.$cashFlowList)[0].scrollHeight);
-          
+
           calc.$cashFlowInput.focus();
-  
+
           console.log(calc.$cashFlows);
         }
       },
 
-      removeCashFlow: function(el) {
+      removeCashFlow: function (el) {
         const index = $(el).index();
 
         calc.$cashFlows.splice(index, 1);
@@ -405,33 +405,41 @@
       },
 
       initialRates: function () {
+        var gValue, dValue, dValueCalc;
+
         // intital growth slider value
-        var gValue = calc.$growthValue.next().attr('value');
+        gValue = calc.$growthValue.next().attr('value');
         calc.$growthValue.html(gValue + '%');
         calc.$rateGrowth = gValue / 100;
-        //  console.log(calc.$rateGrowth);
+        //  console.log('calc.$rateGrowth initial ' + calc.$rateGrowth);
 
         // intital decay slider value
-        var dValue = ((1 - (1 / (1 + gValue / 100))) * 100).toFixed(0);
-        calc.$rateDecay = dValue / 100;
+        dValue = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
+        dValueCalc = Math.round(dValue).toFixed(0);
+        // console.log('dValueCalc: ' + dValueCalc);
+        calc.$rateDecay = dValueCalc / 100;
+        // console.log("rate decay " + calc.$rateDecay);
         calc.$decayValue.html((1 - calc.$rateDecay) + '%');
-        console.log("rate decay " + calc.$rateDecay);
+        // console.log("discount factor " + (1 - calc.$rateDecay));
       },
 
       currentRates: function () {
-        var currentGrowthVal, currentDecayVal;
+        var currentGrowthVal, currentDecayVal, currentDecayValCalc;
 
+        // current growth slider value
         currentGrowthVal = $('input[type=range]').val();
         calc.$growthValue.text(currentGrowthVal + '%');
         calc.$rateGrowth = currentGrowthVal / 100;
-        console.log(calc.$rateGrowth);
+        // console.log('calc.$rateGrowth current ' + calc.$rateGrowth);
 
         // current decay slider value
-        currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
-        //  console.log('current decay slider value: ' + currentDecayVal);
-        calc.$rateDecay = currentDecayVal / 100;
-        calc.$decayValue.text((1 - calc.$rateDecay) + '%');
-        console.log('decay val ' + calc.$rateDecay);
+        currentDecayVal = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
+        currentDecayValCalc = Math.round(currentDecayVal).toFixed(0)
+        // console.log('currentDecayValCalc: ' + currentDecayValCalc);
+        calc.$rateDecay = currentDecayValCalc / 100;
+        // console.log("rate decay " + calc.$rateDecay);
+        calc.$decayValue.html((1 - calc.$rateDecay) + '%');
+        // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
 
       decayCashFlow: function (val) {
@@ -504,14 +512,14 @@
         startHtml = '<li><span class="cashflow-list-left">';
         midHtml = '%</span> &nbsp;<span class="cashflow-list-right">$';
         endHtml = '</span></li>';
-        
+
         calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);
 
         console.log((decayRate * 100), npv);
       }
     };
-  
+
     // Initialize calculator
     calc.init();
   });
-})( jQuery );
+})(jQuery);
