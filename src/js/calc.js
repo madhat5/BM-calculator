@@ -408,26 +408,19 @@
         // intital growth slider value
         var gValue = calc.$growthValue.next().attr('value');
         calc.$growthValue.html(gValue + '%');
-        // console.log('intital growth slider value: ' + $('input[type=range]').val())
         calc.$rateGrowth = gValue / 100;
         //  console.log(calc.$rateGrowth);
 
         // intital decay slider value
         var dValue = ((1 - (1 / (1 + gValue / 100))) * 100).toFixed(0);
-        calc.$decayValue.html(dValue + '%');
-        // console.log('intital decay slider value: ' + dValue)
         calc.$rateDecay = dValue / 100;
-        console.log("rate decay");
-        console.log(calc.$rateDecay);
+        calc.$decayValue.html((1 - calc.$rateDecay) + '%');
+        console.log("rate decay " + calc.$rateDecay);
       },
 
       currentRates: function () {
         var currentGrowthVal, currentDecayVal;
 
-        // current growth slider value
-        //  $(this).prev(calc.$growthValue).html(this.value + '%');       
-
-        //  console.log('current growth slider value: ' + $('input[type=range]').val());
         currentGrowthVal = $('input[type=range]').val();
         calc.$growthValue.text(currentGrowthVal + '%');
         calc.$rateGrowth = currentGrowthVal / 100;
@@ -436,10 +429,9 @@
         // current decay slider value
         currentDecayVal = ((1 - (1 / (1 + currentGrowthVal / 100))) * 100).toFixed(0);
         //  console.log('current decay slider value: ' + currentDecayVal);
-        calc.$decayValue.text(currentDecayVal + '%');
         calc.$rateDecay = currentDecayVal / 100;
-
-        console.log(calc.$rateDecay);
+        calc.$decayValue.text((1 - calc.$rateDecay) + '%');
+        console.log('decay val ' + calc.$rateDecay);
       },
 
       decayCashFlow: function (val) {
