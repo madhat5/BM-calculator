@@ -437,7 +437,7 @@
         currentDecayValCalc = Math.round(currentDecayVal).toFixed(0)
         // console.log('currentDecayValCalc: ' + currentDecayValCalc);
         calc.$rateDecay = currentDecayValCalc / 100;
-        console.log("rate decay " + calc.$rateDecay);
+        // console.log("rate decay " + calc.$rateDecay);
         calc.$decayValue.html((1 - calc.$rateDecay) + '%');
         // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
@@ -458,14 +458,13 @@
             // console.log('count: ' + i)
             // console.log('newVal: ' + newVal);
             finalVal = Number(newVal.toFixed(2));
-            console.log('finalVal: ' + finalVal);
+            // console.log('finalVal: ' + finalVal);
 
             calc.$cashFlowsCalculated.push(finalVal);
           }
         }
 
-        console.log("cash flows calculated:");
-        console.log(calc.$cashFlowsCalculated);
+        // console.log('cashFlowsCalculated: ' + calc.$cashFlowsCalculated);
       },
 
       totalsCashFlows: function () {
@@ -504,11 +503,19 @@
 
         // pos/neg difference
         diff = function (a, b) {
-          return Math.abs(a - b);
+          //  return Math.abs(a - b);
+          if (Math.abs(a) > Math.abs(b)) {
+            return a - b;
+          } else if (Math.abs(b) > Math.abs(a)) {
+            return b + a;
+          }
         };
-        calc.$cashFlowsTotals.push(Number(diff(posSumAvg, negSumAvg).toFixed(2)));
+        calc.$cashFlowsTotals.push(
+          Number(
+            diff(posSumAvg, negSumAvg).toFixed(2)
+          ));
 
-        console.log(calc.$cashFlowsTotals);
+        // console.log('$cashFlowsTotals: ' + calc.$cashFlowsTotals);
       },
 
       displayRes: function (decayRate, npv) {
