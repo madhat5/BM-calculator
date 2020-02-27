@@ -298,16 +298,14 @@
       },
 
       step_5: function() {
-        const finalSum = calc.$cashFlowsTotals[0] - calc.$cashFlowsTotals[1],
+        const finalSum = calc.$cashFlowsTotals[2],
               finalHTML = '<div class="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span><p class="final-message">You\'ve found the IRR!</p></div>';
 
         calc.$stackedChart.series[0].update({
-          data: [finalSum, calc.$stackedData[1]]
+          data: [finalSum, finalSum]
         });
 
         $('#hidden-final-chart').prepend(finalHTML);
-
-        $('#hidden-final-chart .highcharts-series .highcharts-negative').css('transform', 'scaleY(0)');
         $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
       },
 
