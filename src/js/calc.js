@@ -437,7 +437,7 @@
         currentDecayValCalc = Math.round(currentDecayVal).toFixed(0)
         // console.log('currentDecayValCalc: ' + currentDecayValCalc);
         calc.$rateDecay = currentDecayValCalc / 100;
-        // console.log("rate decay " + calc.$rateDecay);
+        console.log("rate decay " + calc.$rateDecay);
         calc.$decayValue.html((1 - calc.$rateDecay) + '%');
         // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
@@ -451,9 +451,14 @@
             calc.$cashFlowsCalculated.push(calc.$cashFlows[i]);
           } else {
             // convert current cashflow val to decayed cashflow val 
-            newVal = calc.$cashFlows[i] / (Math.pow((1 - val), i));
 
+            newVal = calc.$cashFlows[i] * (Math.pow((1 - val), i));
+            // console.log('calc.$cashFlows[i]: ' + calc.$cashFlows[i])
+            // console.log('val: ' + val)
+            // console.log('count: ' + i)
+            // console.log('newVal: ' + newVal);
             finalVal = Number(newVal.toFixed(2));
+            console.log('finalVal: ' + finalVal);
 
             calc.$cashFlowsCalculated.push(finalVal);
           }
