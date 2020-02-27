@@ -510,3 +510,32 @@ $teal: #47E2BE;
 .cashflow-list-right {
   padding-left: 45px;
 }
+
+// ================
+// Run Again
+// ================
+
+
+.redo-btn {
+  position: absolute;
+  right: 30px;
+  bottom: 0;
+  z-index: 300;
+  display: block;
+  outline: 0;
+  border: 0;
+  background-color: $red;
+  color: white;
+  font-size: 23px;
+  width: 160px;
+  height: 60px;
+  margin: 0 auto;
+  opacity: .5;
+  border-radius: 10px;
+  transition: opacity .25s ease-in-out;
+
+  &.redo-btn--active {
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
+  }
+}
