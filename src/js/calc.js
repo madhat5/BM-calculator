@@ -47,6 +47,8 @@
 
         calc.$sliderPopover = $("[data-toggle=popover]");
 
+        calc.$historyClear = $('.hist-clear');
+
         // Input should be focused on load
         calc.$cashFlowInput.focus();
 
@@ -116,7 +118,15 @@
           setTimeout(function() { calc.step_4(); }, 5300);
           setTimeout(function() { calc.step_5(); }, 8500);
         });
+
+        calc.$historyClear.click(function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+      
+          calc.clearHistory();
+        });
       },
+      
 
       // Chart
       step_1: function() {
@@ -458,12 +468,12 @@
             return b + a;
           }
         };
+        console.log('$cashFlowsTotals: ' + calc.$cashFlowsTotals);
         calc.$cashFlowsTotals.push(
           Number(
             diff(posSumAvg, negSumAvg).toFixed(2)
           ));
 
-        // console.log('$cashFlowsTotals: ' + calc.$cashFlowsTotals);
       },
 
       displayRes: function (decayRate, npv) {
@@ -476,6 +486,10 @@
         calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);
 
         console.log((decayRate * 100), npv);
+      },
+
+      clearHistory: function () {
+        $('#calc-res li').remove()
       }
     };
   
