@@ -112,9 +112,9 @@
           calc.step_1();
 
           setTimeout(function() { calc.step_2(); }, 3000);
-          setTimeout(function() { calc.step_3(); }, 5000);
-          setTimeout(function() { calc.step_4(); }, 5300);
-          setTimeout(function() { calc.step_5(); }, 8500);
+          setTimeout(function() { calc.step_3(); }, 6000);
+          setTimeout(function() { calc.step_4(); }, 6300);
+          setTimeout(function() { calc.step_5(); }, 9500);
         });
       },
 
@@ -305,8 +305,14 @@
           data: [finalSum, finalSum]
         });
 
-        $('#hidden-final-chart').prepend(finalHTML);
-        $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
+        setTimeout(function() {
+          $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(300px)');
+        }, 800);
+
+        setTimeout(function() {
+          $('#hidden-final-chart').prepend(finalHTML);
+        }, 1300);
+        // $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
       },
 
       // Cash Flows

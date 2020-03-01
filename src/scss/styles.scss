@@ -216,12 +216,15 @@ $teal: #47E2BE;
 
   .chart-main {
     position: relative;
-    height: 368px;
+    // height: 368px;
+    height: 420px;
     overflow: hidden;
 
     .highcharts-credits { display: none; }
 
     .highcharts-container {
+      transition: all .75s ease-out;
+
       :not(svg) {
         transform-origin: left bottom;
       }
@@ -316,9 +319,10 @@ $teal: #47E2BE;
 
     .chart-legend {
       display: none;
-      position: absolute;
-      left: 20px;
-      bottom: -40px;
+      // position: absolute;
+      // left: 20px;
+      // bottom: -40px;
+      margin-left: 25px;
       font-size: 12px;
 
       span:nth-child(1) {
@@ -376,13 +380,15 @@ $teal: #47E2BE;
   }
 
   .hidden-final-chart {
-    rect.highcharts-point { width: calc(100% - 40px); }
+    rect.highcharts-point { 
+      width: calc(100% - 40px);
+    }
     rect.highcharts-point:nth-child(2) {
       x: 0;
     }
 
     .chart-final-message {
-      // position: absolute;
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
