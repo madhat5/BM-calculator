@@ -100,7 +100,7 @@
 
             if ( !($(calc.$calcBtn).hasClass('calc-btn--active')) ) {
               $(calc.$calcBtn).addClass('calc-btn--active');
-              $(calc.$resetBtn).addClass('reset-btn--active');
+              // $(calc.$resetBtn).addClass('reset-btn--active');
             }
           });
         });
@@ -119,6 +119,11 @@
           setTimeout(function() { calc.step_3(); }, 5000);
           setTimeout(function() { calc.step_4(); }, 5300);
           setTimeout(function() { calc.step_5(); }, 8500);
+
+          setTimeout(function() {
+            $(calc.$resetBtn).addClass('reset-btn--active');  
+          }, 8500);
+          
         });
 
       // Reset btn
@@ -163,7 +168,7 @@
 
         calc.decayCashFlow(calc.$rateDecay);
         calc.totalsCashFlows();
-        calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
+        // calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
 
         $(calc.$chart).addClass('chart--active');
 
@@ -323,6 +328,8 @@
 
         $('#hidden-final-chart').prepend(finalHTML);
         $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
+
+        calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
       },
 
       // Cash Flows
@@ -503,6 +510,17 @@
 
         // reset slider to default
         calc.initialRates();
+
+        // reset charts to Go
+        $(calc.$chart).removeClass('chart--active');
+        $(calc.$chart).removeClass('step-3');
+        // calc.$chart.load(location.href + " #chart-main");
+        $(calc.$calcBtn).removeClass('calc-btn--active');
+
+        calc.$cashFlowInput.focus();
+      },
+
+      runAgain: function() {
       }
     };
   
