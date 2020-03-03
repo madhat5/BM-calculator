@@ -115,6 +115,10 @@ $teal: #47E2BE;
     min-height: 633px;
   }
   
+  .hist-box {
+    min-height: 544px;
+  }
+
   .border {
     background-color: #ffffff;
     border-radius: 10px;
@@ -512,11 +516,12 @@ $teal: #47E2BE;
 }
 
 // ================
-// Run Again
+// Reset | Redo
 // ================
 
 
-.redo-btn {
+.redo-btn,
+.reset-btn {
   position: absolute;
   right: 30px;
   bottom: 0;
@@ -534,8 +539,17 @@ $teal: #47E2BE;
   border-radius: 10px;
   transition: opacity .25s ease-in-out;
 
-  &.redo-btn--active {
+  &.redo-btn--active,
+  &.reset-btn--active {
     opacity: 1;
     transition: opacity .25s ease-in-out;
   }
+}
+
+.reset-btn {
+  position: relative;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  margin: 20px auto 0;
 }

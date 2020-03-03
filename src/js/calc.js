@@ -35,14 +35,17 @@
         // On init, assign the prop variables to actual HTML elements
         calc.$cashFlowInput = $('#cash-flow-input');
         calc.$cashFlowList = $('#cash-flow-list');
+        // calc.$cashFlowListItems = $('#cash-flow-list li');
         calc.$cashFlowAddBtn = $('#cash-flow-add-btn');
         calc.$calcBtn = $('#calc-btn');
+        calc.$resetBtn = $('#app-reset-btn');
 
         calc.$slider = $('.range-slider');
         calc.$range = $('.range-slider__range');
         calc.$growthValue = $('.range-slider__value');
         calc.$decayValue = $('.decay-rate__value');
         calc.$resList = $('#calc-res');
+        // calc.$resListItems = $('#calc-res li');
         calc.$chart = $('#chart-main');
 
         calc.$sliderPopover = $("[data-toggle=popover]");
@@ -97,6 +100,7 @@
 
             if ( !($(calc.$calcBtn).hasClass('calc-btn--active')) ) {
               $(calc.$calcBtn).addClass('calc-btn--active');
+              $(calc.$resetBtn).addClass('reset-btn--active');
             }
           });
         });
@@ -115,6 +119,18 @@
           setTimeout(function() { calc.step_3(); }, 5000);
           setTimeout(function() { calc.step_4(); }, 5300);
           setTimeout(function() { calc.step_5(); }, 8500);
+        });
+
+      // Reset btn
+        calc.$resetBtn.click(function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+      
+  // on click call reset function {
+          //   > reset chart to Go screen
+      //   },
+
+          calc.resetApp();
         });
       },
 
@@ -476,6 +492,17 @@
         calc.$resList.append(startHtml + (growthRate * 100) + midHtml + npv + endHtml);
 
         console.log((growthRate * 100), npv);
+      },
+
+      resetApp: function() {
+        // remove all history
+        $('#calc-res li').remove()
+
+        // remove all cashflow elements
+        $('#cash-flow-list li').remove()
+
+        // reset slider to default
+        calc.initialRates();
       }
     };
   
