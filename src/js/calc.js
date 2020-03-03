@@ -147,7 +147,7 @@
 
         calc.decayCashFlow(calc.$rateDecay);
         calc.totalsCashFlows();
-        calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
+        calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
 
         $(calc.$chart).addClass('chart--active');
 
@@ -466,16 +466,16 @@
         // console.log('$cashFlowsTotals: ' + calc.$cashFlowsTotals);
       },
 
-      displayRes: function (decayRate, npv) {
+      displayRes: function (growthRate, npv) {
         var startHtml, midHtml, endHtml;
 
         startHtml = '<li><span class="cashflow-list-left">';
         midHtml = '%</span> &nbsp;<span class="cashflow-list-right">$';
         endHtml = '</span></li>';
         
-        calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);
+        calc.$resList.append(startHtml + (growthRate * 100) + midHtml + npv + endHtml);
 
-        console.log((decayRate * 100), npv);
+        console.log((growthRate * 100), npv);
       }
     };
   
