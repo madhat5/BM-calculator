@@ -147,10 +147,12 @@
           calc.resetApp();
         });
 
-        // Go btn
+        // Run again btn
         calc.$runAgainBtn.click(function (e) {
           e.stopPropagation();
           e.preventDefault();
+
+          calc.runAgain()
 
           calc.step_1();
 
@@ -562,6 +564,9 @@
         calc.initialRates();
 
         // reset charts to Go
+        calc.$cashFlowsCalculated = []
+        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsTotals = [];
         $(calc.$chart).removeClass('chart--active');
         $(calc.$chart).removeClass('step-3');
         // calc.$chart.load(location.href + " #chart-main");
@@ -570,7 +575,11 @@
         calc.$cashFlowInput.focus();
       },
 
-      runAgain: function () {}
+      runAgain: function () {
+        calc.$cashFlowsCalculated = []
+        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsTotals = [];
+      }
     };
 
     // Initialize calculator
