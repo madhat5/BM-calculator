@@ -134,9 +134,7 @@
           e.preventDefault();
           e.stopPropagation();
       
-  // on click call reset function {
           //   > reset chart to Go screen
-      //   },
 
           calc.resetApp();
         });
@@ -405,12 +403,13 @@
 
         // intital decay slider value
         dValue = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
-        dValueCalc = Math.round(dValue).toFixed(0);
+        // console.log('dValue: ' + dValue);
+        dValueCalc = (Math.round(dValue)).toFixed(0);
         // console.log('dValueCalc: ' + dValueCalc);
         calc.$rateDecay = dValueCalc / 100;
-        // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay) + '%');
-        // console.log("discount factor " + (1 - calc.$rateDecay));
+        console.log("rate decay " + calc.$rateDecay);
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
+        console.log("discount factor " + (1 - calc.$rateDecay).toFixed(2));
       },
 
       currentRates: function () {
@@ -424,11 +423,11 @@
 
         // current decay slider value
         currentDecayVal = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
-        currentDecayValCalc = Math.round(currentDecayVal).toFixed(0)
+        currentDecayValCalc = (Math.round(currentDecayVal)).toFixed(0)
         // console.log('currentDecayValCalc: ' + currentDecayValCalc);
         calc.$rateDecay = currentDecayValCalc / 100;
         // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay) + '%');
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
         // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
 
