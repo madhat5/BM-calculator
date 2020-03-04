@@ -137,16 +137,6 @@
 
         });
 
-        // Reset btn
-        calc.$resetBtn.click(function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          //   > reset chart to Go screen
-
-          calc.resetApp();
-        });
-
         // Run again btn
         calc.$runAgainBtn.click(function (e) {
           e.stopPropagation();
@@ -171,8 +161,20 @@
 
           setTimeout(function () {
             $(calc.$resetBtn).addClass('reset-btn--active');
+            calc.$runAgainBtn.removeClass('redo-btn-hide');
+            calc.$runAgainBtn.addClass('redo-btn--active');
           }, 8500);
 
+        });
+
+        // Reset btn
+        calc.$resetBtn.click(function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          //   > reset chart to Go screen
+
+          calc.resetApp();
         });
       },
 
@@ -548,7 +550,7 @@
         midHtml = '%</span> &nbsp;<span class="cashflow-list-right">$';
         endHtml = '</span></li>';
 
-        calc.$resList.append(startHtml + (growthRate * 100) + midHtml + npv + endHtml);
+        calc.$resList.append(startHtml + (growthRate * 100).toFixed(0) + midHtml + npv + endHtml);
 
         console.log((growthRate * 100), npv);
       },
