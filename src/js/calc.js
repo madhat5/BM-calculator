@@ -39,6 +39,7 @@
         calc.$cashFlowAddBtn = $('#cash-flow-add-btn');
         calc.$calcBtn = $('#calc-btn');
         calc.$resetBtn = $('#app-reset-btn');
+        calc.$runAgainBtn = $('#run_again-btn');
 
         calc.$slider = $('.range-slider');
         calc.$range = $('.range-slider__range');
@@ -121,7 +122,9 @@
           setTimeout(function() { calc.step_5(); }, 8500);
 
           setTimeout(function() {
-            $(calc.$resetBtn).addClass('reset-btn--active');  
+            $(calc.$resetBtn).addClass('reset-btn--active');
+            calc.$runAgainBtn.removeClass('redo-btn-hide');
+            calc.$runAgainBtn.addClass('redo-btn--active');
           }, 8500);
           
         });
@@ -136,6 +139,24 @@
       //   },
 
           calc.resetApp();
+        });
+
+         // Go btn
+         calc.$runAgainBtn.click(function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          calc.step_1();
+
+          setTimeout(function() { calc.step_2(); }, 3000);
+          setTimeout(function() { calc.step_3(); }, 5000);
+          setTimeout(function() { calc.step_4(); }, 5300);
+          setTimeout(function() { calc.step_5(); }, 8500);
+
+          setTimeout(function() {
+            $(calc.$resetBtn).addClass('reset-btn--active');  
+          }, 8500);
+          
         });
       },
 
