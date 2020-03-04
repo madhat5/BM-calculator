@@ -214,6 +214,38 @@ $teal: #47E2BE;
     }
   }
 
+  .chart-controls {
+    position: relative;
+    width: calc(100% - 30px);
+    margin: 0 auto;
+    display: none;
+
+    &--active {
+      display: block;
+    }
+
+    p {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .chart-buttons {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1;
+
+      button {
+        // border: 0;
+        // outline: 0;
+        // background-color: transparent;
+      }
+    }
+  }
+
   .chart-main {
     position: relative;
     // height: 368px;
@@ -230,7 +262,7 @@ $teal: #47E2BE;
       }
     }
 
-    .highcharts-background { fill: transparent; }
+    .highcharts-background { fill: transparent; } 
 
     &.chart--active {
       .instructions,

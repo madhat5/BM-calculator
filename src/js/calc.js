@@ -8,6 +8,7 @@
       // Cash flows
       $cashFlows: [],
       $cashFlowsPos: [],
+      $cashFlowsPosStorage: [],
       $cashFlowInput: null,
       $cashFlowList: null,
       $cashFlowAddBtn: null,
@@ -24,6 +25,8 @@
       $chartObj: null,
       $stackedChart: null,
       $stackedData: [],
+      $stackedDataStorage: [],
+      $activeStep: 1,
       // 
       // Methods
       // 
@@ -44,8 +47,21 @@
         calc.$decayValue = $('.decay-rate__value');
         calc.$resList = $('#calc-res');
         calc.$chart = $('#chart-main');
+        calc.$chartControls = $('#chart-controls');
 
         calc.$sliderPopover = $("[data-toggle=popover]");
+
+        calc.$stepMessage = $('#step-message');
+        calc.$prevBtn = $('#prev-btn');
+        calc.$nextBtn = $('#next-btn');
+
+        calc.$stepMessages = [
+          "Multiply each year by it's discount factor",
+          "Sum together all positive and negative cash flows.",
+          "Subtract negative cash flows from positive cash flows."
+        ];
+
+        calc.$timeouts = [];
 
         // Input should be focused on load
         calc.$cashFlowInput.focus();
@@ -111,15 +127,80 @@
 
           calc.step_1();
 
-          setTimeout(function() { calc.step_2(); }, 3000);
-          setTimeout(function() { calc.step_3(); }, 6000);
-          setTimeout(function() { calc.step_4(); }, 6300);
-          setTimeout(function() { calc.step_5(); }, 9500);
+          calc.$timeouts.push(setTimeout(function() { calc.step_2(); }, 3000));
+          calc.$timeouts.push(setTimeout(function() { calc.step_3(); }, 6000));
+          calc.$timeouts.push(setTimeout(function() { calc.step_4(); }, 6300));
+          calc.$timeouts.push(setTimeout(function() { calc.step_5(); }, 9500));
         });
+
+        // Prev and next btn
+
+        calc.$prevBtn.click(function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          console.log('canceled');
+
+          for (var x = 0; x < calc.$timeouts.length; x++) {
+            clearTimeout(calc.$timeouts[x]);
+          }
+
+          if (calc.$activeStep == 2) {
+            calc.$activeStep = 1;
+
+            // var newPos = [];
+            // var li = document.querySelectorAll('#cash-flow-list li');
+
+            // li.forEach( function(item) {
+            //   var text = item.innerText;
+            //       strippedDollars = text.replace('$', ''),
+            //       strippedCommas = strippedDollars.replace(',', ''),
+            //       num = new Number(strippedCommas).valueOf();
+
+            //   newPos.push(Math.abs(num));
+            // });
+
+            calc.$stepMessage.html(calc.$stepMessages[0]);
+
+            calc.$chartObj.series[0].update({
+              data: calc.$cashFlowsPosStorage,
+              softMax: Math.max(calc.$cashFlowsPosStorage)
+            });
+
+          } else if (calc.$activeStep == 3 || calc.$activeStep == 4) {
+            var bars = $($('.highcharts-tracker')[0]).children();
+
+            $(bars).css('transform', 'scaleY(1)');
+
+            $($('.highcharts-container svg .highcharts-series-group g')[0]).attr('style', 'transform: translateY(0)');
+
+            $(calc.$chart).removeClass('step-3');
+
+            calc.step_2();
+
+            console.log('second block');
+          } else if (calc.$activeStep == 5) {
+            calc.$activeStep = 4;
+
+            $('#hidden-final-chart .chart-final-message').css('display', 'none');
+            $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(0)');
+
+            console.log('active step 5 thing');
+
+            console.log(calc.$stackedDataStorage);
+
+            calc.$stackedChart.series[0].update({
+              data: calc.$stackedDataStorage
+            });
+          }
+        })
       },
 
       // Chart
       step_1: function() {
+        calc.$chartControls.addClass('chart-controls--active');
+        calc.$stepMessage.html(calc.$stepMessages[0]);
+
         if ($('#bar-style')) {
           var barStyle = document.createElement('style');
 
@@ -198,10 +279,12 @@
 
         if (!(posTotal === 'NaN')) {
           calc.$stackedData.push(posTotal);
+          calc.$stackedDataStorage.push(posTotal);
         }
 
         if (!(negTotal === 'NaN')) {
           calc.$stackedData.push(negTotal);
+          calc.$stackedDataStorage.push(negTotal);
         }
 
         calc.$stackedChart = Highcharts.chart('hidden-final-chart', {
@@ -241,13 +324,20 @@
       },
 
       step_2: function() {
+        calc.$stepMessage.html(calc.$stepMessages[1]);
+        calc.$activeStep = 2;
+
         calc.$chartObj.series[0].update({
           data: calc.$cashFlowsCalculatedPos
         });
+
+        console.log(calc.$cashFlowsPos);
       },
 
       step_3: function() {
         var bars = $($('.highcharts-tracker')[0]).children();
+        
+        calc.$activeStep = 3;
 
         $(bars).attr('style', 'transform: scaleY(0); transform-origin: bottom;');
 
@@ -257,6 +347,10 @@
       },
 
       step_4: function() {
+        calc.$stepMessage.html(calc.$stepMessages[2]);
+
+        calc.$activeStep = 4;
+
         $(calc.$chart).addClass('step-3');
 
         var hiddenNeg = $($('.highcharts-tracker')[1]).children()[1],
@@ -301,6 +395,8 @@
         const finalSum = calc.$cashFlowsTotals[2],
               finalHTML = '<div class="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span><p class="final-message">You\'ve found the IRR!</p></div>';
 
+        calc.$activeStep = 5;              
+
         calc.$stackedChart.series[0].update({
           data: [finalSum, finalSum]
         });
@@ -335,6 +431,7 @@
           
           calc.$cashFlows.push(finalVal.valueOf());
           calc.$cashFlowsPos.push(Math.abs(finalVal.valueOf()));
+          calc.$cashFlowsPosStorage.push(Math.abs(finalVal.valueOf()));
   
           calc.$cashFlowInput.val('');
 
