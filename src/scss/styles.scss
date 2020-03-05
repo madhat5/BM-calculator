@@ -126,7 +126,7 @@ $teal: #47E2BE;
   }
 
   .cash-flow-list-sect {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 
     .cash-flow-list {
@@ -550,7 +550,7 @@ $teal: #47E2BE;
 }
 
 .cashflow-list-right {
-  padding-left: 30px;
+  padding-left: 40px;
 }
 
 // ================
@@ -594,4 +594,8 @@ $teal: #47E2BE;
   bottom: 0;
   z-index: 0;
   margin: 20px auto 0;
+}
+
+.runAgainTransform {
+  transform: translateY(400px) !important;
 }
