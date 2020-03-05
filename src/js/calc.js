@@ -139,26 +139,12 @@
           e.preventDefault();
           e.stopPropagation();
 
-          console.log('canceled');
-
           for (var x = 0; x < calc.$timeouts.length; x++) {
             clearTimeout(calc.$timeouts[x]);
           }
 
           if (calc.$activeStep == 2) {
             calc.$activeStep = 1;
-
-            // var newPos = [];
-            // var li = document.querySelectorAll('#cash-flow-list li');
-
-            // li.forEach( function(item) {
-            //   var text = item.innerText;
-            //       strippedDollars = text.replace('$', ''),
-            //       strippedCommas = strippedDollars.replace(',', ''),
-            //       num = new Number(strippedCommas).valueOf();
-
-            //   newPos.push(Math.abs(num));
-            // });
 
             calc.$stepMessage.html(calc.$stepMessages[0]);
 
@@ -193,7 +179,27 @@
               data: calc.$stackedDataStorage
             });
           }
-        })
+        });
+
+        calc.$nextBtn.click(function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          for (var x = 0; x < calc.$timeouts.length; x++) {
+            clearTimeout(calc.$timeouts[x]);
+          }
+
+          if (calc.$activeStep == 1) {
+            calc.step_2();
+          } else if (calc.$activeStep == 2) {
+            calc.step_3();
+            setTimeout(function() {
+              calc.step_4();
+            }, 300);
+          } else if (calc.$activeStep == 4) {
+            calc.step_5();
+          }
+        });
       },
 
       // Chart
@@ -330,8 +336,6 @@
         calc.$chartObj.series[0].update({
           data: calc.$cashFlowsCalculatedPos
         });
-
-        console.log(calc.$cashFlowsPos);
       },
 
       step_3: function() {
@@ -365,30 +369,6 @@
 
         $($('#hidden-final-chart .highcharts-series-group g')[0]).prepend(posPath);
         $($('#hidden-final-chart .highcharts-series-group g')[0]).append(negPath);
-
-        // setTimeout(function() {
-          // var posWave = $('#pos-wave').wavify({
-          //   height: 30,
-          //   bones: 7,
-          //   amplitude: 40,
-          //   color: '#4F5366',
-          //   // color: '#000000',
-          //   speed: .55
-          // });
-
-          // var negWave = $('#neg-wave').wavify({
-          //   height: 15,
-          //   bones: 7,
-          //   amplitude: 40,
-          //   color: '#E43B3F',
-          //   speed: .55
-          // });
-        // }, 1000);
-
-        // setTimeout(function() {
-        //   $('#pos-wave').attr('style', 'transform: scaleY(0)');
-        //   $('#neg-wave').attr('style', 'transform: scaleY(0)');
-        // }, 1000);
       },
 
       step_5: function() {
@@ -449,8 +429,6 @@
         el.remove();
 
         calc.$cashFlowInput.focus();
-
-        console.log(calc.$cashFlows);
       },
 
       initialRates: function () {
