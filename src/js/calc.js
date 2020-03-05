@@ -142,7 +142,6 @@
           e.stopPropagation();
           e.preventDefault();
 
-          $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
           calc.runAgain()
 
           calc.step_1();
@@ -589,7 +588,7 @@
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
         calc.$stackedData =[];
-        $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
+        // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
       }
     };
 
