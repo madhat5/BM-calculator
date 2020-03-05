@@ -114,6 +114,10 @@ $teal: #47E2BE;
   .lg-box {
     min-height: 633px;
   }
+
+  .hist-box {
+    min-height: 544px;
+  }
   
   .border {
     background-color: #ffffff;
@@ -546,5 +550,48 @@ $teal: #47E2BE;
 }
 
 .cashflow-list-right {
-  padding-left: 45px;
+  padding-left: 30px;
+}
+
+// ================
+// Reset | Redo
+// ================
+
+
+.redo-btn,
+.reset-btn {
+  position: absolute;
+  right: 30px;
+  bottom: 0;
+  z-index: 300;
+  display: block;
+  outline: 0;
+  border: 0;
+  background-color: $red;
+  color: white;
+  font-size: 23px;
+  width: 160px;
+  height: 60px;
+  margin: 0 auto;
+  opacity: .5;
+  border-radius: 10px;
+  transition: opacity .25s ease-in-out;
+
+  &.redo-btn--active,
+  &.reset-btn--active {
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
+  }
+}
+
+.redo-btn-hide {
+  display:none;
+}
+
+.reset-btn {
+  position: relative;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  margin: 20px auto 0;
 }

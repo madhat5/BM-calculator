@@ -13,6 +13,8 @@
       $cashFlowList: null,
       $cashFlowAddBtn: null,
       $cashFlowRemoveBtn: null,
+      $resetBtnL: null,
+      $runAgainBtn: null,
       $cashFlowsCalculated: [],
       $cashFlowsCalculatedPos: [],
       $cashFlowsTotals: [],
@@ -40,6 +42,8 @@
         calc.$cashFlowList = $('#cash-flow-list');
         calc.$cashFlowAddBtn = $('#cash-flow-add-btn');
         calc.$calcBtn = $('#calc-btn');
+        calc.$resetBtn = $('#app-reset-btn');
+        calc.$runAgainBtn = $('#run_again-btn');
 
         calc.$slider = $('.range-slider');
         calc.$range = $('.range-slider__range');
@@ -199,6 +203,38 @@
           } else if (calc.$activeStep == 4) {
             calc.step_5();
           }
+        });
+
+        calc.$runAgainBtn.click(function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          calc.runAgain()
+
+          calc.step_1();
+
+          setTimeout(function () {
+            calc.step_2();
+          }, 3000);
+          setTimeout(function () {
+            calc.step_3();
+          }, 5000);
+          setTimeout(function () {
+            calc.step_4();
+          }, 5300);
+          setTimeout(function () {
+            calc.step_5();
+          }, 8500);
+        });
+
+        // Reset btn
+        calc.$resetBtn.click(function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          //   > reset chart to Go screen
+
+          calc.resetApp();
         });
       },
 
@@ -375,7 +411,11 @@
         const finalSum = calc.$cashFlowsTotals[2],
               finalHTML = '<div class="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span><p class="final-message">You\'ve found the IRR!</p></div>';
 
-        calc.$activeStep = 5;              
+        $(calc.$resetBtn).addClass('reset-btn--active');
+        calc.$runAgainBtn.removeClass('redo-btn-hide');
+        calc.$runAgainBtn.addClass('redo-btn--active');
+
+        calc.$activeStep = 5;
 
         calc.$stackedChart.series[0].update({
           data: [finalSum, finalSum]
@@ -442,11 +482,11 @@
 
         // intital decay slider value
         dValue = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
-        dValueCalc = Math.round(dValue).toFixed(0);
+        dValueCalc = (Math.round(dValue)).toFixed(0);
         // console.log('dValueCalc: ' + dValueCalc);
         calc.$rateDecay = dValueCalc / 100;
         // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay) + '%');
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
         // console.log("discount factor " + (1 - calc.$rateDecay));
       },
 
@@ -461,11 +501,11 @@
 
         // current decay slider value
         currentDecayVal = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
-        currentDecayValCalc = Math.round(currentDecayVal).toFixed(0)
+        currentDecayValCalc = (Math.round(currentDecayVal)).toFixed(0);
         // console.log('currentDecayValCalc: ' + currentDecayValCalc);
         calc.$rateDecay = currentDecayValCalc / 100;
         // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay) + '%');
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
         // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
 
@@ -521,14 +561,24 @@
         const arrSum = arr => arr.reduce((a, b) => a + b, 0);
 
         // positive sum + push
-        posSum = Number(arrSum(posVals).toFixed(2));
-        posSumAvg = Number((posSum / posVals.length).toFixed(2));
-        calc.$cashFlowsTotals.push(posSumAvg);
+        if (posVals.length == 0 || posVals === undefined) {
+          posSumAvg = 0;
+          calc.$cashFlowsTotals.push(posSumAvg);
+        } else {
+          posSum = Number(arrSum(posVals).toFixed(2));
+          posSumAvg = Number((posSum / posVals.length).toFixed(2));
+          calc.$cashFlowsTotals.push(posSumAvg);
+        };
 
         // negative sum + push
-        negSum = Number(arrSum(negVals).toFixed(2));
-        negSumAvg = Number((negSum / negVals.length).toFixed(2));
-        calc.$cashFlowsTotals.push(negSumAvg);
+        if (negVals.length == 0 || negVals === undefined) {
+          negSumAvg = 0;
+          calc.$cashFlowsTotals.push(negSumAvg);
+        } else {
+          negSum = Number(arrSum(negVals).toFixed(2));
+          negSumAvg = Number((negSum / negVals.length).toFixed(2));
+          calc.$cashFlowsTotals.push(negSumAvg);
+        };
 
         // pos/neg difference
         diff = function (a, b) {
@@ -547,16 +597,50 @@
         // console.log('$cashFlowsTotals: ' + calc.$cashFlowsTotals);
       },
 
-      displayRes: function (decayRate, npv) {
+      displayRes: function (growthRate, npv) {
         var startHtml, midHtml, endHtml;
 
         startHtml = '<li><span class="cashflow-list-left">';
         midHtml = '%</span> &nbsp;<span class="cashflow-list-right">$';
         endHtml = '</span></li>';
         
-        calc.$resList.append(startHtml + (decayRate * 100) + midHtml + npv + endHtml);
+        calc.$resList.append(startHtml + (growthRate * 100).toFixed(0) + midHtml + npv + endHtml);
+      },
 
-        console.log((decayRate * 100), npv);
+      resetApp: function () {
+        // remove all history
+        $('#calc-res li').remove()
+
+        // remove all cashflow elements
+        $('#cash-flow-list li').remove()
+
+        // reset slider to default
+        calc.initialRates();
+
+        // reset charts to Go
+        calc.$cashFlows = [];
+        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsCalculated = [];
+        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsTotals = [];
+        calc.$stackedData =[];
+
+        calc.$runAgainBtn.addClass('redo-btn-hide');
+
+        $(calc.$chart).removeClass('chart--active');
+        $(calc.$chart).removeClass('step-3');
+        // calc.$chart.load(location.href + " #chart-main");
+        $(calc.$calcBtn).removeClass('calc-btn--active');
+
+        calc.$cashFlowInput.focus();
+      },
+
+      runAgain: function () {
+        calc.$cashFlowsCalculated = []
+        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsTotals = [];
+        calc.$stackedData =[];
+        // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
       }
     };
   
