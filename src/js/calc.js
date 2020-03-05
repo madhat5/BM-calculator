@@ -629,33 +629,46 @@
       },
 
       resetApp: function () {
-        // // remove all history
-        // $('#calc-res li').remove()
+        // remove all history
+        $('#calc-res li').remove()
 
-        // // remove all cashflow elements
-        // $('#cash-flow-list li').remove()
+        // remove all cashflow elements
+        $('#cash-flow-list li').remove()
 
-        // // reset slider to default
-        // calc.initialRates();
+        // reset slider to default
+        calc.$rateGrowth = null;
+        calc.$rateDecay = null;
+        calc.initialRates();
 
-        // // reset charts to Go screen
-        // calc.$cashFlows = [];
-        // calc.$cashFlowsCalculatedPos = [];
-        // calc.$cashFlowsCalculated = [];
-        // calc.$cashFlowsCalculatedPos = [];
-        // calc.$cashFlowsTotals = [];
-        // calc.$stackedData = [];
+        // cashflows empty
+        calc.$cashFlows = [];
+        calc.$cashFlowsPos = []
+        calc.$cashFlowsPosStorage = [];
+        calc.$cashFlowsCalculated = [];
+        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsTotals = [];
 
-        // calc.$runAgainBtn.addClass('redo-btn-hide');
+        // chart data empty
+        calc.$chartObj = {};
+        calc.$stackedChart = {};
+        calc.$stackedData = [];
+        calc.$stackedDataStorage = [];
+        calc.$activeStep = 1;
 
-        // $(calc.$chart).removeClass('chart--active');
-        // $(calc.$chart).removeClass('step-3');
-        // // calc.$chart.load(location.href + " #chart-main");
-        // $(calc.$calcBtn).removeClass('calc-btn--active');
+        // btns reset
+        calc.$runAgainBtn.addClass('redo-btn-hide');
+        $(calc.$calcBtn).removeClass('calc-btn--active');
 
-        // calc.$cashFlowInput.focus();
+        // chart visual reset
+        $(calc.$chart).removeClass('chart--active');
+        $(calc.$chart).removeClass('step-3');
+        $(calc.$chartControls).removeClass('chart-controls--active');
+        $('#hidden-final-chart .chart-final-message').css('display', 'none');
+        $('.highcharts-container').css('display', 'none');
 
-        location.reload();
+        calc.$cashFlowInput.focus();
+        
+        // location.reload();
       },
 
       runAgain: function () {
