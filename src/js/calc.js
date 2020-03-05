@@ -134,7 +134,10 @@
           calc.$timeouts.push(setTimeout(function() { calc.step_2(); }, 3000));
           calc.$timeouts.push(setTimeout(function() { calc.step_3(); }, 6000));
           calc.$timeouts.push(setTimeout(function() { calc.step_4(); }, 6300));
-          calc.$timeouts.push(setTimeout(function() { calc.step_5(); }, 9500));
+          calc.$timeouts.push(setTimeout(function() { 
+            calc.step_5(); 
+            calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
+          }, 9500));
         });
 
         // Prev and next btn
@@ -185,6 +188,8 @@
           }
         });
 
+
+        // next btn
         calc.$nextBtn.click(function(e) {
           e.preventDefault();
           e.stopPropagation();
@@ -205,6 +210,7 @@
           }
         });
 
+        // Run again btn
         calc.$runAgainBtn.click(function (e) {
           e.stopPropagation();
           e.preventDefault();
@@ -224,6 +230,7 @@
           }, 5300);
           setTimeout(function () {
             calc.step_5();
+            calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
           }, 8500);
         });
 
@@ -234,7 +241,8 @@
 
           //   > reset chart to Go screen
 
-          calc.resetApp();
+          // calc.resetApp();
+          location.reload();
         });
       },
 
@@ -270,7 +278,7 @@
 
         calc.decayCashFlow(calc.$rateDecay);
         calc.totalsCashFlows();
-        calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
+        // calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
 
         $(calc.$chart).addClass('chart--active');
 
