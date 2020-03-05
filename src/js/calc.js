@@ -142,6 +142,7 @@
           e.stopPropagation();
           e.preventDefault();
 
+          $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
           calc.runAgain()
 
           calc.step_1();
@@ -566,9 +567,15 @@
         calc.initialRates();
 
         // reset charts to Go
-        calc.$cashFlowsCalculated = []
+        calc.$cashFlows = [];
+        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
+        calc.$stackedData =[];
+
+        calc.$runAgainBtn.addClass('redo-btn-hide');
+
         $(calc.$chart).removeClass('chart--active');
         $(calc.$chart).removeClass('step-3');
         // calc.$chart.load(location.href + " #chart-main");
@@ -581,6 +588,8 @@
         calc.$cashFlowsCalculated = []
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
+        calc.$stackedData =[];
+        $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
       }
     };
 
