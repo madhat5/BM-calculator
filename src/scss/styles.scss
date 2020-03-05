@@ -3,11 +3,13 @@ $bodyFont: 'Raleway', sans-serif;
 $headlineFont: 'Archivo Black', sans-serif;
 
 // Colors
+$black: #000000;
 $grey: #efefef;
 $darkerGrey: #B3B3B3;
 $darkestGrey: #707070;
 $red: #E43B3F;
 $teal: #47E2BE;
+$lightTeal: #93F5DE;
 
 // ================
 // GENERAL
@@ -221,7 +223,7 @@ $teal: #47E2BE;
   .chart-controls {
     position: relative;
     width: calc(100% - 30px);
-    margin: 0 auto;
+    margin: 0 auto 30px;
     display: none;
 
     &--active {
@@ -232,6 +234,7 @@ $teal: #47E2BE;
       position: absolute;
       top: 0;
       left: 0;
+      max-width: 50%;
       display: inline-block;
       vertical-align: top;
     }
@@ -243,9 +246,106 @@ $teal: #47E2BE;
       z-index: 1;
 
       button {
-        // border: 0;
-        // outline: 0;
-        // background-color: transparent;
+        position: relative;
+        border: 0;
+        outline: 0;
+        background-color: transparent;
+
+        .btn-icon-wrap {
+          display: inline-block;
+          vertical-align: middle;
+          position: relative;
+          width: 28px;
+          height: 28px;
+          margin: 0 3px;
+          border: 1px solid $black;
+          border-radius: 14px;
+
+          svg {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+
+  .step-progress-bar {
+    width: 100%;
+    padding-top: 70px;
+
+    &[data-active-step="2"],
+    &[data-active-step="3"],
+    &[data-active-step="4"],
+    &[data-active-step="5"] {
+      .line:nth-of-type(2)::before {
+        transform: scaleX(1);
+      }
+
+      .circle:nth-of-type(3) {
+        background-color: $teal;
+        transition-delay: .3s;
+      }
+    }
+
+    &[data-active-step="3"],
+    &[data-active-step="4"],
+    &[data-active-step="5"] {
+      .line:nth-of-type(4)::before {
+        transform: scaleX(1);
+      }
+      .circle:nth-of-type(5) {
+        background-color: $teal;
+        transition-delay: .3s;
+      }
+    }
+
+    &[data-active-step="5"] {
+      .line:nth-of-type(6)::before {
+        transform: scaleX(1);
+      }
+      .circle:nth-of-type(7) {
+        background-color: $teal;
+        transition-delay: .3s;
+      }
+    }
+
+    .circle {
+      display: inline-block;
+      vertical-align: middle;
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      background-color: $lightTeal;
+      transition-delay: .3s;
+      transition: all .25s ease-in-out;
+
+      &:nth-child(1) { background-color: $teal; }
+    }
+
+    .line {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      height: 8px;
+      width: calc(33.33% - 41px);
+      background-color: $lightTeal;
+
+      &:before {
+        content: '';
+        width: 100%;
+        height: 8px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: $teal;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: all .5s ease-in-out;
       }
     }
   }

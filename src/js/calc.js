@@ -52,6 +52,7 @@
         calc.$resList = $('#calc-res');
         calc.$chart = $('#chart-main');
         calc.$chartControls = $('#chart-controls');
+        calc.$progressBar = $('#step-progress-bar');
 
         calc.$sliderPopover = $("[data-toggle=popover]");
 
@@ -368,6 +369,7 @@
       step_2: function() {
         calc.$stepMessage.html(calc.$stepMessages[1]);
         calc.$activeStep = 2;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
         calc.$chartObj.series[0].update({
           data: calc.$cashFlowsCalculatedPos
@@ -378,6 +380,7 @@
         var bars = $($('.highcharts-tracker')[0]).children();
         
         calc.$activeStep = 3;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
         $(bars).attr('style', 'transform: scaleY(0); transform-origin: bottom;');
 
@@ -390,6 +393,7 @@
         calc.$stepMessage.html(calc.$stepMessages[2]);
 
         calc.$activeStep = 4;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
         $(calc.$chart).addClass('step-3');
 
@@ -416,6 +420,7 @@
         calc.$runAgainBtn.addClass('redo-btn--active');
 
         calc.$activeStep = 5;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
         calc.$stackedChart.series[0].update({
           data: [finalSum, finalSum]
