@@ -53,7 +53,8 @@
         calc.$chart = $('#chart-main');
         calc.$chartControls = $('#chart-controls');
 
-        calc.$sliderPopover = $("[data-toggle=popover]");
+        calc.$sliderPopover = $(".slider_tutorial");
+        calc.$resultsPopover = $(".results_tutorial");
 
         calc.$stepMessage = $('#step-message');
         calc.$prevBtn = $('#prev-btn');
@@ -121,8 +122,9 @@
           });
         });
 
-        // Slider tutorial
+        // Tutorials
         calc.$sliderPopover.popover();
+        calc.$resultsPopover.popover();
 
         // Go btn
         calc.$calcBtn.click(function (e) {
