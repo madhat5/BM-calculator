@@ -3,11 +3,14 @@ $bodyFont: 'Raleway', sans-serif;
 $headlineFont: 'Archivo Black', sans-serif;
 
 // Colors
+$black: #000000;
+$white: #ffffff;
 $grey: #efefef;
 $darkerGrey: #B3B3B3;
 $darkestGrey: #707070;
 $red: #E43B3F;
 $teal: #47E2BE;
+$lightTeal: #93F5DE;
 
 // ================
 // GENERAL
@@ -71,18 +74,20 @@ $teal: #47E2BE;
     }
   }
 
-  .slider_tutorial {
+  .slider_tutorial,
+  .results_tutorial {
     display: block;
     position: absolute;
     top: 18px;
     right: 20px;
     left: auto;
-    border: 1px solid #428bca;
+    border: 1px solid $black;
     border-radius:50%;
     padding: 0 5px;
     font-size: 14px;
     font-weight: bolder;
-    color: #428bca;
+    color: $black;
+    background-color: transparent;
   }
   
   .box {
@@ -125,7 +130,7 @@ $teal: #47E2BE;
   }
 
   .cash-flow-list-sect {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 
     .cash-flow-list {
@@ -221,7 +226,7 @@ $teal: #47E2BE;
   .chart-controls {
     position: relative;
     width: calc(100% - 30px);
-    margin: 0 auto;
+    margin: 0 auto 30px;
     display: none;
 
     &--active {
@@ -232,6 +237,7 @@ $teal: #47E2BE;
       position: absolute;
       top: 0;
       left: 0;
+      max-width: 50%;
       display: inline-block;
       vertical-align: top;
     }
@@ -243,9 +249,119 @@ $teal: #47E2BE;
       z-index: 1;
 
       button {
-        // border: 0;
-        // outline: 0;
-        // background-color: transparent;
+        position: relative;
+        border: 0;
+        outline: 0;
+        background-color: transparent;
+
+        &[disabled] {
+          color: $darkerGrey;
+
+          .btn-icon-wrap {
+            border-color: $darkerGrey;
+          }
+
+          svg path {
+            fill: $darkerGrey;
+            stroke: $darkerGrey;
+          }
+        }
+
+        .btn-icon-wrap {
+          display: inline-block;
+          vertical-align: middle;
+          position: relative;
+          width: 28px;
+          height: 28px;
+          margin: 0 3px;
+          border: 1px solid $black;
+          border-radius: 14px;
+
+          svg {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+
+  .step-progress-bar {
+    width: 100%;
+    padding-top: 70px;
+
+    &[data-active-step="2"],
+    &[data-active-step="3"],
+    &[data-active-step="4"],
+    &[data-active-step="5"] {
+      .line:nth-of-type(2)::before {
+        transform: scaleX(1);
+      }
+
+      .circle:nth-of-type(3) {
+        background-color: $teal;
+        transition-delay: .3s;
+      }
+    }
+
+    &[data-active-step="3"],
+    &[data-active-step="4"],
+    &[data-active-step="5"] {
+      .line:nth-of-type(4)::before {
+        transform: scaleX(1);
+      }
+      .circle:nth-of-type(5) {
+        background-color: $teal;
+        transition-delay: .3s;
+      }
+    }
+
+    &[data-active-step="5"] {
+      .line:nth-of-type(6)::before {
+        transform: scaleX(1);
+      }
+      .circle:nth-of-type(7) {
+        background-color: $teal;
+        transition-delay: .3s;
+      }
+    }
+
+    .circle {
+      display: inline-block;
+      vertical-align: middle;
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      background-color: $lightTeal;
+      transition-delay: .3s;
+      transition: all .25s ease-in-out;
+
+      &:nth-child(1) { background-color: $teal; }
+    }
+
+    .line {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      height: 8px;
+      width: calc(33.33% - 41px);
+      background-color: $lightTeal;
+
+      &:before {
+        content: '';
+        width: 100%;
+        height: 8px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: $teal;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: all .5s ease-in-out;
       }
     }
   }
@@ -275,9 +391,14 @@ $teal: #47E2BE;
       .chart-legend { display: block; }
     }
 
-    // .chart-container {
-    //   .highcharts-negative { y: 0; }
-    // }
+    .chart-container {
+      .highcharts-series rect {
+        stroke: $white;
+        outline: 1px solid $black;
+        stroke-width: 10px;
+        stroke-linecap: round;
+      }
+    }
 
     .hidden-final-chart {
       transform: translateY(0);
@@ -336,7 +457,7 @@ $teal: #47E2BE;
 
       .highcharts-container svg .highcharts-series-group > g {
         transition: all 1s ease-in-out;
-        // transition-delay: .25s;
+        outline: 2px solid $black;
       }
 
       #pos-wave-svg {
@@ -515,7 +636,7 @@ $teal: #47E2BE;
 .hist-labels {
   padding: 5px 10px;
   position: relative;
-  font-size: 14px !important;
+  font-size: 13px !important; 
   font-weight: 700 !important;
   text-transform: uppercase;
   text-align: center;
@@ -550,7 +671,7 @@ $teal: #47E2BE;
 }
 
 .cashflow-list-right {
-  padding-left: 30px;
+  padding-left: 40px;
 }
 
 // ================
@@ -562,7 +683,7 @@ $teal: #47E2BE;
 .reset-btn {
   position: absolute;
   right: 30px;
-  bottom: 0;
+  bottom: -35px;
   z-index: 300;
   display: block;
   outline: 0;
@@ -594,4 +715,8 @@ $teal: #47E2BE;
   bottom: 0;
   z-index: 0;
   margin: 20px auto 0;
+}
+
+.runAgainTransform {
+  transform: translateY(400px) !important;
 }

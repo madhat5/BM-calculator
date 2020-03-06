@@ -23,6 +23,8 @@
       $rateDecay: null,
 
       // Charts
+      $resetBtnL: null,
+      $runAgainBtn: null,
       $calcBtn: null,
       $chartObj: null,
       $stackedChart: null,
@@ -52,8 +54,10 @@
         calc.$resList = $('#calc-res');
         calc.$chart = $('#chart-main');
         calc.$chartControls = $('#chart-controls');
+        calc.$progressBar = $('#step-progress-bar');
 
-        calc.$sliderPopover = $("[data-toggle=popover]");
+        calc.$sliderPopover = $(".slider_tutorial");
+        calc.$resultsPopover = $(".results_tutorial");
 
         calc.$stepMessage = $('#step-message');
         calc.$prevBtn = $('#prev-btn');
@@ -123,6 +127,7 @@
 
         // Slider tutorial
         calc.$sliderPopover.popover();
+        calc.$resultsPopover.popover();
 
         // Go btn
         calc.$calcBtn.click(function(e) {
@@ -151,6 +156,7 @@
             calc.$activeStep = 1;
 
             calc.$stepMessage.html(calc.$stepMessages[0]);
+            calc.$prevBtn.attr('disabled', 'disabled');
 
             calc.$chartObj.series[0].update({
               data: calc.$cashFlowsPosStorage,
@@ -171,6 +177,7 @@
             console.log('second block');
           } else if (calc.$activeStep == 5) {
             calc.$activeStep = 4;
+            calc.$nextBtn.removeAttr('disabled');
 
             $('#hidden-final-chart .chart-final-message').css('display', 'none');
             $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(0)');
@@ -183,6 +190,8 @@
               data: calc.$stackedDataStorage
             });
           }
+
+          calc.$progressBar.attr('data-active-step', calc.$activeStep);
         });
 
         calc.$nextBtn.click(function(e) {
@@ -217,6 +226,7 @@
             calc.step_2();
           }, 3000);
           setTimeout(function () {
+            $('#hidden-final-chart').removeClass('runAgainTransform');
             calc.step_3();
           }, 5000);
           setTimeout(function () {
@@ -224,6 +234,7 @@
           }, 5300);
           setTimeout(function () {
             calc.step_5();
+            calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
           }, 8500);
         });
 
@@ -242,6 +253,7 @@
       step_1: function() {
         calc.$chartControls.addClass('chart-controls--active');
         calc.$stepMessage.html(calc.$stepMessages[0]);
+        calc.$prevBtn.attr('disabled', 'disabled');
 
         if ($('#bar-style')) {
           var barStyle = document.createElement('style');
@@ -368,6 +380,8 @@
       step_2: function() {
         calc.$stepMessage.html(calc.$stepMessages[1]);
         calc.$activeStep = 2;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
+        calc.$prevBtn.removeAttr('disabled');
 
         calc.$chartObj.series[0].update({
           data: calc.$cashFlowsCalculatedPos
@@ -376,8 +390,10 @@
 
       step_3: function() {
         var bars = $($('.highcharts-tracker')[0]).children();
+        calc.$prevBtn.removeAttr('disabled');
         
         calc.$activeStep = 3;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
         $(bars).attr('style', 'transform: scaleY(0); transform-origin: bottom;');
 
@@ -388,8 +404,11 @@
 
       step_4: function() {
         calc.$stepMessage.html(calc.$stepMessages[2]);
+        calc.$prevBtn.removeAttr('disabled');
+        calc.$nextBtn.removeAttr('disabled');
 
         calc.$activeStep = 4;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
         $(calc.$chart).addClass('step-3');
 
@@ -409,13 +428,23 @@
 
       step_5: function() {
         const finalSum = calc.$cashFlowsTotals[2],
-              finalHTML = '<div class="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span><p class="final-message">You\'ve found the IRR!</p></div>';
+              finalMessage = '<div class="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span>';
+              finalMessageAddOn = '<p class="final-message" id="final-message">You\'ve found the IRR!</p></div>';
+        
+        let finalHTML;
+
+        if (-1 > finalSum < 1) {
+          finalHTML = finalMessage + finalMessageAddOn;
+        } else {
+          finalHTML = finalMessage;
+        }
 
         $(calc.$resetBtn).addClass('reset-btn--active');
         calc.$runAgainBtn.removeClass('redo-btn-hide');
         calc.$runAgainBtn.addClass('redo-btn--active');
-
+        calc.$nextBtn.attr('disabled', 'disabled');
         calc.$activeStep = 5;
+        calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
         calc.$stackedChart.series[0].update({
           data: [finalSum, finalSum]
@@ -465,6 +494,8 @@
         const index = $(el).index();
 
         calc.$cashFlows.splice(index, 1);
+        calc.$cashFlowsPos.splice(index, 1);
+        calc.$cashFlowsPosStorage.splice(index, 1);
 
         el.remove();
 
@@ -617,30 +648,53 @@
         // reset slider to default
         calc.initialRates();
 
-        // reset charts to Go
+        // cashflows empty
         calc.$cashFlows = [];
-        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsPos = [];
+        calc.$cashFlowsPosStorage = [];
         calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
-        calc.$stackedData =[];
 
+        // chart data empty
+        calc.$chartObj = {};
+        calc.$stackedChart = {};
+        calc.$stackedData = [];
+        calc.$stackedDataStorage = [];
+        calc.$activeStep = 1;
+
+        // btns reset
         calc.$runAgainBtn.addClass('redo-btn-hide');
+        $(calc.$calcBtn).removeClass('calc-btn--active');
 
+        // chart visual reset
         $(calc.$chart).removeClass('chart--active');
         $(calc.$chart).removeClass('step-3');
         // calc.$chart.load(location.href + " #chart-main");
-        $(calc.$calcBtn).removeClass('calc-btn--active');
+        $(calc.$chartControls).removeClass('chart-controls--active');
+        $('#hidden-final-chart .chart-final-message').css('display', 'none');
+        $('.highcharts-container').css('display', 'none');
 
         calc.$cashFlowInput.focus();
       },
 
       runAgain: function () {
-        calc.$cashFlowsCalculated = []
+        // chart move
+        $('#hidden-final-chart').addClass('runAgainTransform');
+        // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
+
+        // cashflow empty
+        calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
         calc.$stackedData =[];
-        // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
+
+        // charts empty
+        calc.$chartObj = {};
+        calc.$stackedChart = {};
+        calc.$stackedData = [];
+        calc.$stackedDataStorage = [];
+        calc.$activeStep = 1;
       }
     };
   

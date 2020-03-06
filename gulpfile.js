@@ -8,7 +8,7 @@ var settings = {
 	scripts: true,
 	polyfills: false,
 	styles: true,
-	svgs: false,
+	svgs: true,
 	copy: true,
 	reload: true
 };
