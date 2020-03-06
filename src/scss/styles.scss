@@ -4,6 +4,7 @@ $headlineFont: 'Archivo Black', sans-serif;
 
 // Colors
 $black: #000000;
+$white: #ffffff;
 $grey: #efefef;
 $darkerGrey: #B3B3B3;
 $darkestGrey: #707070;
@@ -73,18 +74,20 @@ $lightTeal: #93F5DE;
     }
   }
 
-  .slider_tutorial {
+  .slider_tutorial,
+  .results_tutorial {
     display: block;
     position: absolute;
     top: 18px;
     right: 20px;
     left: auto;
-    border: 1px solid #428bca;
+    border: 1px solid $black;
     border-radius:50%;
     padding: 0 5px;
     font-size: 14px;
     font-weight: bolder;
-    color: #428bca;
+    color: $black;
+    background-color: transparent;
   }
   
   .box {
@@ -127,7 +130,7 @@ $lightTeal: #93F5DE;
   }
 
   .cash-flow-list-sect {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 
     .cash-flow-list {
@@ -253,7 +256,7 @@ $lightTeal: #93F5DE;
 
         &[disabled] {
           color: $darkerGrey;
-          
+
           .btn-icon-wrap {
             border-color: $darkerGrey;
           }
@@ -388,9 +391,14 @@ $lightTeal: #93F5DE;
       .chart-legend { display: block; }
     }
 
-    // .chart-container {
-    //   .highcharts-negative { y: 0; }
-    // }
+    .chart-container {
+      .highcharts-series rect {
+        stroke: $white;
+        outline: 1px solid $black;
+        stroke-width: 10px;
+        stroke-linecap: round;
+      }
+    }
 
     .hidden-final-chart {
       transform: translateY(0);
@@ -449,7 +457,7 @@ $lightTeal: #93F5DE;
 
       .highcharts-container svg .highcharts-series-group > g {
         transition: all 1s ease-in-out;
-        // transition-delay: .25s;
+        outline: 2px solid $black;
       }
 
       #pos-wave-svg {
@@ -628,7 +636,7 @@ $lightTeal: #93F5DE;
 .hist-labels {
   padding: 5px 10px;
   position: relative;
-  font-size: 14px !important;
+  font-size: 13px !important; 
   font-weight: 700 !important;
   text-transform: uppercase;
   text-align: center;
@@ -663,7 +671,7 @@ $lightTeal: #93F5DE;
 }
 
 .cashflow-list-right {
-  padding-left: 30px;
+  padding-left: 40px;
 }
 
 // ================
@@ -675,7 +683,7 @@ $lightTeal: #93F5DE;
 .reset-btn {
   position: absolute;
   right: 30px;
-  bottom: 0;
+  bottom: -35px;
   z-index: 300;
   display: block;
   outline: 0;
@@ -707,4 +715,8 @@ $lightTeal: #93F5DE;
   bottom: 0;
   z-index: 0;
   margin: 20px auto 0;
+}
+
+.runAgainTransform {
+  transform: translateY(400px) !important;
 }

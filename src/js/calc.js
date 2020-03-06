@@ -23,6 +23,8 @@
       $rateDecay: null,
 
       // Charts
+      $resetBtnL: null,
+      $runAgainBtn: null,
       $calcBtn: null,
       $chartObj: null,
       $stackedChart: null,
@@ -54,7 +56,8 @@
         calc.$chartControls = $('#chart-controls');
         calc.$progressBar = $('#step-progress-bar');
 
-        calc.$sliderPopover = $("[data-toggle=popover]");
+        calc.$sliderPopover = $(".slider_tutorial");
+        calc.$resultsPopover = $(".results_tutorial");
 
         calc.$stepMessage = $('#step-message');
         calc.$prevBtn = $('#prev-btn');
@@ -124,6 +127,7 @@
 
         // Slider tutorial
         calc.$sliderPopover.popover();
+        calc.$resultsPopover.popover();
 
         // Go btn
         calc.$calcBtn.click(function(e) {
@@ -222,6 +226,7 @@
             calc.step_2();
           }, 3000);
           setTimeout(function () {
+            $('#hidden-final-chart').removeClass('runAgainTransform');
             calc.step_3();
           }, 5000);
           setTimeout(function () {
@@ -229,6 +234,7 @@
           }, 5300);
           setTimeout(function () {
             calc.step_5();
+            calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
           }, 8500);
         });
 
@@ -427,10 +433,10 @@
         
         let finalHTML;
 
-        if (finalSum !== 0) {
-          finalHTML = finalMessage;
-        } else {
+        if (-1 > finalSum < 1) {
           finalHTML = finalMessage + finalMessageAddOn;
+        } else {
+          finalHTML = finalMessage;
         }
 
         $(calc.$resetBtn).addClass('reset-btn--active');
@@ -488,6 +494,8 @@
         const index = $(el).index();
 
         calc.$cashFlows.splice(index, 1);
+        calc.$cashFlowsPos.splice(index, 1);
+        calc.$cashFlowsPosStorage.splice(index, 1);
 
         el.remove();
 
@@ -640,30 +648,53 @@
         // reset slider to default
         calc.initialRates();
 
-        // reset charts to Go
+        // cashflows empty
         calc.$cashFlows = [];
-        calc.$cashFlowsCalculatedPos = [];
+        calc.$cashFlowsPos = [];
+        calc.$cashFlowsPosStorage = [];
         calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
-        calc.$stackedData =[];
 
+        // chart data empty
+        calc.$chartObj = {};
+        calc.$stackedChart = {};
+        calc.$stackedData = [];
+        calc.$stackedDataStorage = [];
+        calc.$activeStep = 1;
+
+        // btns reset
         calc.$runAgainBtn.addClass('redo-btn-hide');
+        $(calc.$calcBtn).removeClass('calc-btn--active');
 
+        // chart visual reset
         $(calc.$chart).removeClass('chart--active');
         $(calc.$chart).removeClass('step-3');
         // calc.$chart.load(location.href + " #chart-main");
-        $(calc.$calcBtn).removeClass('calc-btn--active');
+        $(calc.$chartControls).removeClass('chart-controls--active');
+        $('#hidden-final-chart .chart-final-message').css('display', 'none');
+        $('.highcharts-container').css('display', 'none');
 
         calc.$cashFlowInput.focus();
       },
 
       runAgain: function () {
-        calc.$cashFlowsCalculated = []
+        // chart move
+        $('#hidden-final-chart').addClass('runAgainTransform');
+        // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
+
+        // cashflow empty
+        calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
         calc.$stackedData =[];
-        // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
+
+        // charts empty
+        calc.$chartObj = {};
+        calc.$stackedChart = {};
+        calc.$stackedData = [];
+        calc.$stackedDataStorage = [];
+        calc.$activeStep = 1;
       }
     };
   
