@@ -630,19 +630,21 @@
 
       resetApp: function () {
         // remove all history
-        $('#calc-res li').remove()
+        $('#calc-res li').remove();
 
         // remove all cashflow elements
-        $('#cash-flow-list li').remove()
+        $('#cash-flow-list li').remove();
 
         // reset slider to default
         calc.$rateGrowth = null;
         calc.$rateDecay = null;
         calc.initialRates();
+        // set slider val to 0?
+        calc.$range.val('0');
 
         // cashflows empty
         calc.$cashFlows = [];
-        calc.$cashFlowsPos = []
+        calc.$cashFlowsPos = [];
         calc.$cashFlowsPosStorage = [];
         calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
@@ -678,7 +680,7 @@
         // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
 
         // cashflow empty
-        calc.$cashFlowsCalculated = []
+        calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
 
