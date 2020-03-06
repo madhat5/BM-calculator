@@ -251,6 +251,19 @@ $lightTeal: #93F5DE;
         outline: 0;
         background-color: transparent;
 
+        &[disabled] {
+          color: $darkerGrey;
+          
+          .btn-icon-wrap {
+            border-color: $darkerGrey;
+          }
+
+          svg path {
+            fill: $darkerGrey;
+            stroke: $darkerGrey;
+          }
+        }
+
         .btn-icon-wrap {
           display: inline-block;
           vertical-align: middle;
