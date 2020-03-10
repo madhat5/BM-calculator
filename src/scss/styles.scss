@@ -11,6 +11,7 @@ $darkestGrey: #707070;
 $red: #E43B3F;
 $teal: #47E2BE;
 $lightTeal: #93F5DE;
+$lightBlue: #0f8be2;
 
 // ================
 // GENERAL
@@ -81,12 +82,12 @@ $lightTeal: #93F5DE;
     top: 18px;
     right: 20px;
     left: auto;
-    border: 1px solid $black;
+    border: 1px solid $lightBlue;
     border-radius:50%;
     padding: 0 5px;
     font-size: 14px;
     font-weight: bolder;
-    color: $black;
+    color: $lightBlue;
     background-color: transparent;
   }
   
