@@ -613,9 +613,9 @@
         diff = function (a, b) {
           //  return Math.abs(a - b);
           if (Math.abs(a) > Math.abs(b)) {
-            return a - b;
+            return Math.abs(a) - Math.abs(b);
           } else if (Math.abs(b) > Math.abs(a)) {
-            return b + a;
+            return Math.abs(b) + Math.abs(a);
           }
         };
         calc.$cashFlowsTotals.push(
