@@ -517,7 +517,7 @@
         // console.log('dValueCalc: ' + dValueCalc);
         calc.$rateDecay = dValueCalc / 100;
         // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(1));
         // console.log("discount factor " + (1 - calc.$rateDecay));
       },
 
@@ -536,7 +536,7 @@
         // console.log('currentDecayValCalc: ' + currentDecayValCalc);
         calc.$rateDecay = currentDecayValCalc / 100;
         // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(1));
         // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
 
