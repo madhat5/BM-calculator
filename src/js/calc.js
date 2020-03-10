@@ -13,8 +13,6 @@
       $cashFlowList: null,
       $cashFlowAddBtn: null,
       $cashFlowRemoveBtn: null,
-      $resetBtnL: null,
-      $runAgainBtn: null,
       $cashFlowsCalculated: [],
       $cashFlowsCalculatedPos: [],
       $cashFlowsTotals: [],
@@ -23,7 +21,7 @@
       $rateDecay: null,
 
       // Charts
-      $resetBtnL: null,
+      $resetBtn: null,
       $runAgainBtn: null,
       $calcBtn: null,
       $chartObj: null,
@@ -218,7 +216,7 @@
           e.stopPropagation();
           e.preventDefault();
 
-          calc.runAgain()
+          calc.runAgain();
 
           calc.step_1();
 
@@ -277,7 +275,7 @@
 
             barStyle.appendChild(document.createTextNode(barCss));
           }
-        })
+        });
 
         calc.decayCashFlow(calc.$rateDecay);
         calc.totalsCashFlows();
@@ -462,7 +460,7 @@
 
       // Cash Flows
       addCommas: function(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
       },
 
       addCashFlow: function(val) {
@@ -599,7 +597,7 @@
           posSum = Number(arrSum(posVals).toFixed(2));
           posSumAvg = Number((posSum / posVals.length).toFixed(2));
           calc.$cashFlowsTotals.push(posSumAvg);
-        };
+        }
 
         // negative sum + push
         if (negVals.length == 0 || negVals === undefined) {
@@ -609,7 +607,7 @@
           negSum = Number(arrSum(negVals).toFixed(2));
           negSumAvg = Number((negSum / negVals.length).toFixed(2));
           calc.$cashFlowsTotals.push(negSumAvg);
-        };
+        }
 
         // pos/neg difference
         diff = function (a, b) {
@@ -640,10 +638,10 @@
 
       resetApp: function () {
         // remove all history
-        $('#calc-res li').remove()
+        $('#calc-res li').remove();
 
         // remove all cashflow elements
-        $('#cash-flow-list li').remove()
+        $('#cash-flow-list li').remove();
 
         // reset slider to default
         calc.initialRates();
