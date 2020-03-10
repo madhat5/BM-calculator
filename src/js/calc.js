@@ -234,7 +234,6 @@
           }, 5300);
           setTimeout(function () {
             calc.step_5();
-            calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
           }, 8500);
         });
 
@@ -282,7 +281,6 @@
 
         calc.decayCashFlow(calc.$rateDecay);
         calc.totalsCashFlows();
-        calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
 
         $(calc.$chart).addClass('chart--active');
 
@@ -457,6 +455,8 @@
         setTimeout(function() {
           $('#hidden-final-chart').prepend(finalHTML);
         }, 1300);
+
+        calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
         // $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
       },
 
