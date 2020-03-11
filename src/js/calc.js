@@ -13,8 +13,6 @@
       $cashFlowList: null,
       $cashFlowAddBtn: null,
       $cashFlowRemoveBtn: null,
-      $resetBtnL: null,
-      $runAgainBtn: null,
       $cashFlowsCalculated: [],
       $cashFlowsCalculatedPos: [],
       $cashFlowsTotals: [],
@@ -23,7 +21,7 @@
       $rateDecay: null,
 
       // Charts
-      $resetBtnL: null,
+      $resetBtn: null,
       $runAgainBtn: null,
       $calcBtn: null,
       $chartObj: null,
@@ -218,7 +216,7 @@
           e.stopPropagation();
           e.preventDefault();
 
-          calc.runAgain()
+          calc.runAgain();
 
           calc.step_1();
 
@@ -234,7 +232,6 @@
           }, 5300);
           setTimeout(function () {
             calc.step_5();
-            calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
           }, 8500);
         });
 
@@ -278,11 +275,10 @@
 
             barStyle.appendChild(document.createTextNode(barCss));
           }
-        })
+        });
 
         calc.decayCashFlow(calc.$rateDecay);
         calc.totalsCashFlows();
-        calc.displayRes(calc.$rateDecay, calc.$cashFlowsTotals[2]);
 
         $(calc.$chart).addClass('chart--active');
 
@@ -457,12 +453,14 @@
         setTimeout(function() {
           $('#hidden-final-chart').prepend(finalHTML);
         }, 1300);
+
+        calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
         // $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
       },
 
       // Cash Flows
       addCommas: function(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
       },
 
       addCashFlow: function(val) {
@@ -517,7 +515,7 @@
         // console.log('dValueCalc: ' + dValueCalc);
         calc.$rateDecay = dValueCalc / 100;
         // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(1));
         // console.log("discount factor " + (1 - calc.$rateDecay));
       },
 
@@ -536,7 +534,7 @@
         // console.log('currentDecayValCalc: ' + currentDecayValCalc);
         calc.$rateDecay = currentDecayValCalc / 100;
         // console.log("rate decay " + calc.$rateDecay);
-        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(2) + '%');
+        calc.$decayValue.html((1 - calc.$rateDecay).toFixed(1));
         // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
 
@@ -599,7 +597,7 @@
           posSum = Number(arrSum(posVals).toFixed(2));
           posSumAvg = Number((posSum / posVals.length).toFixed(2));
           calc.$cashFlowsTotals.push(posSumAvg);
-        };
+        }
 
         // negative sum + push
         if (negVals.length == 0 || negVals === undefined) {
@@ -609,15 +607,15 @@
           negSum = Number(arrSum(negVals).toFixed(2));
           negSumAvg = Number((negSum / negVals.length).toFixed(2));
           calc.$cashFlowsTotals.push(negSumAvg);
-        };
+        }
 
         // pos/neg difference
         diff = function (a, b) {
           //  return Math.abs(a - b);
           if (Math.abs(a) > Math.abs(b)) {
-            return a - b;
+            return Math.abs(a) - Math.abs(b);
           } else if (Math.abs(b) > Math.abs(a)) {
-            return b + a;
+            return Math.abs(b) + Math.abs(a);
           }
         };
         calc.$cashFlowsTotals.push(
@@ -640,10 +638,10 @@
 
       resetApp: function () {
         // remove all history
-        $('#calc-res li').remove()
+        $('#calc-res li').remove();
 
         // remove all cashflow elements
-        $('#cash-flow-list li').remove()
+        $('#cash-flow-list li').remove();
 
         // reset slider to default
         calc.initialRates();
