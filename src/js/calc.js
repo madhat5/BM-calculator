@@ -119,6 +119,7 @@
 
             if ( !($(calc.$calcBtn).hasClass('calc-btn--active')) ) {
               $(calc.$calcBtn).addClass('calc-btn--active');
+              $(calc.$calcBtn).removeAttr('disabled');
             }
           });
         });
