@@ -392,14 +392,14 @@ $lightBlue: #0f8be2;
       .chart-legend { display: block; }
     }
 
-    .chart-container {
-      .highcharts-series rect {
-        stroke: $white;
-        outline: 1px solid $black;
-        stroke-width: 10px;
-        stroke-linecap: round;
-      }
-    }
+    // .chart-container {
+    //   .highcharts-series rect {
+    //     stroke: $white;
+    //     outline: 1px solid $black;
+    //     stroke-width: 10px;
+    //     stroke-linecap: round;
+    //   }
+    // }
 
     .hidden-final-chart {
       transform: translateY(0);
@@ -458,7 +458,7 @@ $lightBlue: #0f8be2;
 
       .highcharts-container svg .highcharts-series-group > g {
         transition: all 1s ease-in-out;
-        outline: 2px solid $black;
+        // outline: 2px solid $black;
       }
 
       #pos-wave-svg {
