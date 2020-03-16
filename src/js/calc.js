@@ -240,6 +240,12 @@
           setTimeout(function () {
             calc.step_5();
           }, 8500);
+
+          $('#overflow-hide').css({
+            'height': '420px',
+            'overflow': 'hidden',
+            'transition': 'all .3s ease-in-out'
+          });
         });
 
         // Reset btn
