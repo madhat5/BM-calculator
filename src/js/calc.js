@@ -430,7 +430,8 @@
         
         let finalHTML;
 
-        if (-1 > finalSum < 1) {
+        // if (-1 > finalSum < 1) {
+          if (finalSum == 0) {
           finalHTML = finalMessage + finalMessageAddOn;
         } else {
           finalHTML = finalMessage;
