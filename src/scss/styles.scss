@@ -370,8 +370,21 @@ $lightBlue: #0f8be2;
   .chart-main {
     position: relative;
     // height: 368px;
-    height: 420px;
-    overflow: hidden;
+    // height: 420px;
+    // overflow: hidden;
+
+    .overflow-hide {
+      height: 420px;
+      overflow: hidden;
+    }
+
+    .starter {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      margin: 0 auto;
+    }
 
     .highcharts-credits { display: none; }
 
@@ -477,11 +490,9 @@ $lightBlue: #0f8be2;
 
     .chart-legend {
       display: none;
-      // position: absolute;
-      // left: 20px;
-      // bottom: -40px;
       margin-left: 25px;
       font-size: 12px;
+      padding: 10px 0 20px;
 
       span:nth-child(1) {
         &:after {
@@ -538,6 +549,8 @@ $lightBlue: #0f8be2;
   }
 
   .hidden-final-chart {
+    overflow: visible !important;
+
     rect.highcharts-point { 
       width: calc(100% - 40px);
     }
@@ -551,7 +564,7 @@ $lightBlue: #0f8be2;
       left: 0;
       right: 0;
       text-align: center;
-      // opacity: 0;
+      opacity: 0;
       transition: all .25s ease-in-out;
 
       .final-header {

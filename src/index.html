@@ -95,16 +95,18 @@
               </div>
             </div>
             <div class="chart-main" id="chart-main">
-              <!-- <svg id="pos-wave-svg"><path id="pos-wave" style="color: #707070;"></svg> -->
-              <div class="chart-container" id="chart-container"></div>
+              <div class="overflow-hide" id="overflow-hide">
+                <div class="chart-container" id="chart-container"></div>
+                <div class="hidden-final-chart" id="hidden-final-chart"></div>
+              </div>
               <div class="chart-legend">
                 <span>Negative =</span>
                 <span>Positive =</span>
               </div>
-              <div class="hidden-final-chart" id="hidden-final-chart">
+              <div class="starter">
+                <p class="instructions">Set the discount rate.</p>
+                <button class="calc-btn" id="calc-btn">Go!</button>
               </div>
-              <p class="instructions">Set the discount rate.</p>
-              <button class="calc-btn" id="calc-btn">Go!</button>
             </div>
           </div>
           <button class="calc-btn redo-btn redo-btn-hide" id="run_again-btn">Run Again</button>
@@ -126,9 +128,6 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
-  <script src="js/wavify.js"></script>
-  <script src="js/jquery.wavify.js"></script>
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
