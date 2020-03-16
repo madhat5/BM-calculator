@@ -119,6 +119,7 @@
 
             if ( !($(calc.$calcBtn).hasClass('calc-btn--active')) ) {
               $(calc.$calcBtn).addClass('calc-btn--active');
+              $(calc.$calcBtn).removeAttr('disabled');
             }
           });
         });
@@ -442,6 +443,7 @@
           finalHTML = finalMessage;
         }
 
+        $(calc.$resetBtn).removeAttr('disabled');
         $(calc.$resetBtn).addClass('reset-btn--active');
         calc.$runAgainBtn.removeClass('redo-btn-hide');
         calc.$runAgainBtn.addClass('redo-btn--active');
