@@ -436,6 +436,7 @@
           finalHTML = finalMessage;
         }
 
+        $(calc.$resetBtn).removeAttr('disabled');
         $(calc.$resetBtn).addClass('reset-btn--active');
         calc.$runAgainBtn.removeClass('redo-btn-hide');
         calc.$runAgainBtn.addClass('redo-btn--active');
