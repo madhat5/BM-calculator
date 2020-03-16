@@ -188,6 +188,12 @@
             calc.$stackedChart.series[0].update({
               data: calc.$stackedDataStorage
             });
+
+            $('#overflow-hide').css({
+              'height': '420px',
+              'overflow': 'hidden',
+              'transition': 'all .3s ease-in-out'
+            });
           }
 
           calc.$progressBar.attr('data-active-step', calc.$activeStep);
@@ -351,7 +357,8 @@
               useHTML: true
           },
           yAxis: {
-            visible: false
+            visible: false,
+            softMin: calc.$maxCashFlow
           },
           xAxis: {
             visible: false
@@ -425,13 +432,12 @@
 
       step_5: function() {
         const finalSum = calc.$cashFlowsTotals[2],
-              finalMessage = '<div class="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span>';
+              finalMessage = '<div class="chart-final-message" id="chart-final-message"><p class="final-header">Net Present Value</p><span id="final-value">$' + calc.addCommas(calc.$cashFlowsTotals[2]) + '</span>';
               finalMessageAddOn = '<p class="final-message" id="final-message">You\'ve found the IRR!</p></div>';
         
         let finalHTML;
 
-        // if (-1 > finalSum < 1) {
-          if (finalSum == 0) {
+        if (finalSum === 0) {
           finalHTML = finalMessage + finalMessageAddOn;
         } else {
           finalHTML = finalMessage;
@@ -450,11 +456,33 @@
         });
 
         setTimeout(function() {
-          $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(300px)');
+          const overflowHeight = $('#overflow-hide').height();
+          const finalChartHeight = $('#hidden-final-chart').height();
+          const buffer = overflowHeight + (finalChartHeight / 3);
+
+          console.log('overflowHeight: ' + overflowHeight);
+          console.log('finalChartHeight: ' + finalChartHeight);
+
+          console.log('height should be: ' + buffer + 'px');
+
+          $('#overflow-hide').css({
+            'height': buffer + 'px',
+            'overflow': 'visible',
+            'transition': 'all .3s ease-in-out'
+          });
+
+          $('#hidden-final-chart .highcharts-container').css({
+            'transform': 'translateY(130px)',
+            'transition': 'all .3s ease-in-out'
+          });
         }, 800);
 
         setTimeout(function() {
           $('#hidden-final-chart').prepend(finalHTML);
+          
+          setTimeout(function() {
+            $('#chart-final-message').css('opacity', '1');
+          }, 200);
         }, 1300);
 
         calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
