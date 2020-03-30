@@ -339,7 +339,7 @@ $lightBlue: #0f8be2;
       border-radius: 12px;
       background-color: $lightTeal;
       transition-delay: .3s;
-      transition: all .25s ease-in-out;
+      transition: all .35s ease-in-out;
 
       &:nth-child(1) { background-color: $teal; }
     }
@@ -374,6 +374,7 @@ $lightBlue: #0f8be2;
     // overflow: hidden;
 
     .overflow-hide {
+      position: relative;
       height: 420px;
       overflow: hidden;
     }
@@ -405,87 +406,93 @@ $lightBlue: #0f8be2;
       .chart-legend { display: block; }
     }
 
-    // .chart-container {
-    //   .highcharts-series rect {
-    //     stroke: $white;
-    //     outline: 1px solid $black;
-    //     stroke-width: 10px;
-    //     stroke-linecap: round;
-    //   }
-    // }
+    &.step-1 {
+      .chart-container .chart-bar {
+        transform: scaleY(1);
+        transition: all .75s ease-in-out;
+      }
+    }
 
-    .hidden-final-chart {
-      transform: translateY(0);
+    .chart-container {
+      display: flex;
+      height: 100%;
 
-      .highcharts-tracker {
-        rect {
-          stroke: none;
+      &--hidden {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateY(420px);
+        transition: transform .75s ease-in-out;
+        // transition-delay: .65s;
+        flex-direction: column;
+        justify-content: flex-end;
+        
+        .chart-bar {
+          flex: initial !important;
+          align-self: unset !important;
+        }
+    
+        .chart-final-message {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          text-align: center;
+          opacity: 0;
+          transition: all .35s ease-in-out;
+    
+          .final-header {
+            font-size: 20px;
+            margin-bottom: 0;
+          }
+    
+          #final-value {
+            display: block;
+            font-size: 60px;
+            padding-bottom: 10px;
+          }
+    
+          .final-message {
+            font-weight: 700;
+            color: $teal;
+            font-size: 22px;
+          }
+        }
+      }
+      
+      .chart-bar {
+        margin: 0 5px;
+        flex: 1;
+        align-self: flex-end;
+        background: $darkestGrey;
+        transform: scaleY(0);
+        transition: all .75s ease-in-out;
+        transform-origin: bottom;
+        overflow: hidden;
+
+        &--negative {
+          background-color: $red;
+        }
+
+        &--stacked {
+          
+        }
+
+        > .chart-bar {
+          position: absolute;
+          bottom: 0;
+          left: 0;
           width: 100%;
-          x: 0;
-        }
-
-        rect:nth-child(1) {
-          // visibility: hidden;
-          x: 0;
+          height: 0;
+          margin: 0;
         }
       }
     }
 
-    #pos-wave {
-      transform: translateY(-40px) scale(1);
-    }
 
-    // #pos-wave,
-    // #neg-wave {
-    //   transition: all .25s ease-in-out;
-    // }
-
-    // #pos-wave-svg {
-    //   position: absolute;
-    //   z-index: 100;
-    //   left: 33px;
-    //   top: -30px;
-    //   width: 0px;
-    //   overflow: hidden;
-    //   transform: translateY(200%);
-    //   transition: all 1s ease-out;
-    //   transition-delay: .5s;
-    // }
-
-    rect {
-      transition: all .25s ease-out;
-    }
-
-    &.step-3 {      
-
-      .highcharts-tracker {
-        rect:nth-child(1) {
-          transition: all 1s ease-out;
-          transition-delay: .25s;
-        }
-
-        // rect {
-        //   transition: opacity .25s ease-out;
-        // }
-      }
-
-      .highcharts-container svg .highcharts-series-group > g {
-        transition: all 1s ease-in-out;
-        // outline: 2px solid $black;
-      }
-
-      #pos-wave-svg {
-        width: calc(100% - 43px);
-        transform: translateY(0);
-        transition: all 1s ease-out;
-        transition-delay: .25s;
-      }
-
-      .hidden-final-chart {
-        transform: translate(0, -400px);
-        transition: transform 1s ease-out;
-        transition-delay: .15s;
-      }
+    &.step-3 {
     }
 
     .chart-legend {
@@ -539,49 +546,11 @@ $lightBlue: #0f8be2;
       margin: 50px auto 0;
       opacity: .5;
       border-radius: 10px;
-      transition: opacity .25s ease-in-out;
+      transition: opacity .35s ease-in-out;
 
       &.calc-btn--active {
         opacity: 1;
-        transition: opacity .25s ease-in-out;
-      }
-    }
-  }
-
-  .hidden-final-chart {
-    overflow: visible !important;
-
-    rect.highcharts-point { 
-      width: calc(100% - 40px);
-    }
-    rect.highcharts-point:nth-child(2) {
-      x: 0;
-    }
-
-    .chart-final-message {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      text-align: center;
-      opacity: 0;
-      transition: all .25s ease-in-out;
-
-      .final-header {
-        font-size: 20px;
-        margin-bottom: 0;
-      }
-
-      #final-value {
-        display: block;
-        font-size: 60px;
-        padding-bottom: 10px;
-      }
-
-      .final-message {
-        font-weight: 700;
-        color: $teal;
-        font-size: 22px;
+        transition: opacity .35s ease-in-out;
       }
     }
   }
@@ -709,12 +678,12 @@ $lightBlue: #0f8be2;
     margin: 0 auto;
     opacity: .5;
     border-radius: 10px;
-    transition: opacity .25s ease-in-out;
+    transition: opacity .35s ease-in-out;
   
     &.redo-btn--active,
     &.reset-btn--active {
       opacity: 1;
-      transition: opacity .25s ease-in-out;
+      transition: opacity .35s ease-in-out;
     }
   }
   
