@@ -2,13 +2,12 @@
   $( document ).ready(function() {
     const calc = {
       // 
-      // Calc properties - default values so nothing breaks
+      // Calc properties - default values
       // 
 
       // Cash flows
       $cashFlows: [],
       $cashFlowsPos: [],
-      $cashFlowsPosStorage: [],
       $cashFlowInput: null,
       $cashFlowList: null,
       $cashFlowAddBtn: null,
@@ -20,23 +19,23 @@
       $rateGrowth: null,
       $rateDecay: null,
 
-      // Charts
+      // Chart
+      $chartContainer: null,
       $resetBtn: null,
       $runAgainBtn: null,
       $calcBtn: null,
       $chartObj: null,
       $stackedChart: null,
       $stackedData: [],
-      $stackedDataStorage: [],
       $activeStep: 1,
+      $hiddenChart: null,
+      
       // 
       // Methods
       // 
 
       // Init
       init: function() {
-        console.log("calc init");
-
         // On init, assign the prop variables to actual HTML elements
         calc.$cashFlowInput = $('#cash-flow-input');
         calc.$cashFlowList = $('#cash-flow-list');
@@ -44,6 +43,8 @@
         calc.$calcBtn = $('#calc-btn');
         calc.$resetBtn = $('#app-reset-btn');
         calc.$runAgainBtn = $('#run_again-btn');
+        calc.$chartContainer = $('#chart-container');
+        calc.$hiddenChart = $('#hidden-chart');
 
         calc.$slider = $('.range-slider');
         calc.$range = $('.range-slider__range');
@@ -115,8 +116,6 @@
           calc.$range.on('input', function () {
             calc.currentRates();
 
-            console.log("slider triggered");
-
             if ( !($(calc.$calcBtn).hasClass('calc-btn--active')) ) {
               $(calc.$calcBtn).addClass('calc-btn--active');
               $(calc.$calcBtn).removeAttr('disabled');
@@ -157,43 +156,35 @@
             calc.$stepMessage.html(calc.$stepMessages[0]);
             calc.$prevBtn.attr('disabled', 'disabled');
 
-            calc.$chartObj.series[0].update({
-              data: calc.$cashFlowsPosStorage,
-              softMax: Math.max(calc.$cashFlowsPosStorage)
-            });
+            for (let i = 0; i < calc.$cashFlowsPos.length; i++) {
+              const curr = calc.$cashFlowsPos[i];
+              const height = (curr / calc.$maxCashFlow) * 100;
+
+              $('#chart-container .chart-bar--top')[i].setAttribute('style', 'height: ' + height + '%');
+            }
 
           } else if (calc.$activeStep == 3 || calc.$activeStep == 4) {
-            var bars = $($('.highcharts-tracker')[0]).children();
-
-            $(bars).css('transform', 'scaleY(1)');
-
-            $($('.highcharts-container svg .highcharts-series-group g')[0]).attr('style', 'transform: translateY(0)');
-
             $(calc.$chart).removeClass('step-3');
 
-            calc.step_2();
+            setTimeout(function() {
+              calc.step_2();
+            }, 750);
 
-            console.log('second block');
+            $(calc.$hiddenChart).css('transform', 'translateY(420px)');
           } else if (calc.$activeStep == 5) {
             calc.$activeStep = 4;
             calc.$nextBtn.removeAttr('disabled');
 
-            $('#hidden-final-chart .chart-final-message').css('display', 'none');
-            $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(0)');
+            $('#hidden-chart .chart-final-message').css('display', 'none');
+            $('#hidden-chart .highcharts-container').css('transform', 'translateY(0)');
 
-            console.log('active step 5 thing');
+            for (let i = 0; i < calc.$stackedData.length; i++) {
+              const currData = Math.abs(calc.$stackedData[i]);
+              const height = Math.floor((currData / calc.$maxCashFlow) * 100);
+              const stackedBars = $('#hidden-chart .chart-bar');
 
-            console.log(calc.$stackedDataStorage);
-
-            calc.$stackedChart.series[0].update({
-              data: calc.$stackedDataStorage
-            });
-
-            $('#overflow-hide').css({
-              'height': '420px',
-              'overflow': 'hidden',
-              'transition': 'all .3s ease-in-out'
-            });
+              $(stackedBars[i]).css('height', height + '%');
+            }
           }
 
           calc.$progressBar.attr('data-active-step', calc.$activeStep);
@@ -231,7 +222,7 @@
             calc.step_2();
           }, 3000);
           setTimeout(function () {
-            $('#hidden-final-chart').removeClass('runAgainTransform');
+            $('#hidden-chart').removeClass('runAgainTransform');
             calc.step_3();
           }, 5000);
           setTimeout(function () {
@@ -265,76 +256,34 @@
         calc.$stepMessage.html(calc.$stepMessages[0]);
         calc.$prevBtn.attr('disabled', 'disabled');
 
-        if ($('#bar-style')) {
-          var barStyle = document.createElement('style');
-
-          barStyle.id = 'bar-style';
-          barStyle.type = 'text/css';
-
-          document.getElementsByTagName('head')[0].appendChild(barStyle);
-        } else {
-          $('#bar-style').remove();
-        }
-
         // Set largest cash flow
 
         calc.$maxCashFlow = calc.$cashFlowsPos.reduce(function(a, b) {
           return Math.max(a, b);
         });
 
-        calc.$cashFlows.forEach(function(cashFlow, index) {
-          if (cashFlow < 0) {
-            var barCss = '#chart-container .highcharts-series rect:nth-child(' + (index + 1) + ') { fill: #E43B3F; }';
-
-            barStyle.appendChild(document.createTextNode(barCss));
-          }
-        });
-
         calc.decayCashFlow(calc.$rateDecay);
         calc.totalsCashFlows();
 
+        for (let i = 0; i < calc.$cashFlows.length; i++) {
+          const curr = calc.$cashFlows[i];
+          const currPos = Math.abs(curr);
+          const height = Math.floor((currPos / calc.$maxCashFlow) * 100);
+          const className = curr < 0 ? 'chart-bar--negative' : '';
+          const bar = '<div class="chart-bar chart-bar--top ' + className + '" style="height: ' + height + '%;"></div>';
+          
+          calc.$chartContainer.append(bar);
+
+          if (curr > 0) {
+            $($('#chart-container .chart-bar--top')[i]).html('<div class="chart-bar chart-bar--bottom chart-bar--negative"></div>');
+          }
+        }
+
         $(calc.$chart).addClass('chart--active');
 
-        Highcharts.setOptions({
-          lang: {
-              thousandsSep: ','
-          }
-        });
-
-        calc.$chartObj = Highcharts.chart('chart-container', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-            text:''
-          },
-          tooltip: {
-              headerFormat: '',
-              pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
-              useHTML: true
-          },
-          yAxis: {
-            visible: false,
-            softMax: calc.$maxCashFlow
-          },
-          xAxis: {
-            visible: false
-          },
-          plotOptions: {
-              column: {
-                  // pointPadding: 0.2,
-                  groupPadding: 0,
-                  borderWidth: 1
-              }
-          },
-          series: [{
-            showInLegend: false,
-            color: '#4F5366',
-            negativeColor: '#E43B3F',
-            data: calc.$cashFlowsPos,
-            threshold: null
-          }]
-        });
+        setTimeout(function() {
+          $(calc.$chart).addClass('step-1');
+        }, 500);
 
         // Stacked chart
         var posTotal = calc.$cashFlowsTotals[0],
@@ -342,49 +291,21 @@
 
         if (!(posTotal === 'NaN')) {
           calc.$stackedData.push(posTotal);
-          calc.$stackedDataStorage.push(posTotal);
         }
 
         if (!(negTotal === 'NaN')) {
           calc.$stackedData.push(negTotal);
-          calc.$stackedDataStorage.push(negTotal);
         }
 
-        calc.$stackedChart = Highcharts.chart('hidden-final-chart', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-            text:''
-          },
-          tooltip: {
-              headerFormat: '',
-              pointFormat: '<strong style="font-size:10px">{point.y}</strong>',
-              useHTML: true
-          },
-          yAxis: {
-            visible: false,
-            softMin: calc.$maxCashFlow
-          },
-          xAxis: {
-            visible: false
-          },
-          plotOptions: {
-              column: {
-                  // pointPadding: 0.2,
-                  groupPadding: 0,
-                  borderWidth: 1,
-                  stacking: 'normal'
-              }
-          },
-          series: [{
-            showInLegend: false,
-            color: '#4F5366',
-            negativeColor: '#E43B3F',
-            data: calc.$stackedData,
-            threshold: 0
-          }]
-        });
+        for (let i = 0; i < calc.$stackedData.length; i++) {
+          const currData = Math.abs(calc.$stackedData[i]);
+          const height = Math.floor((currData / calc.$maxCashFlow) * 100);
+          const bar = i > 0 ? 
+            '<div class="chart-bar chart-bar--stacked chart-bar--negative" style="height: ' + height + '%;"></div>'
+            : '<div class="chart-bar chart-bar--stacked" style="height: ' + height + '%;"></div>';
+
+          calc.$hiddenChart.append(bar);
+        }
       },
 
       step_2: function() {
@@ -393,9 +314,12 @@
         calc.$progressBar.attr('data-active-step', calc.$activeStep);
         calc.$prevBtn.removeAttr('disabled');
 
-        calc.$chartObj.series[0].update({
-          data: calc.$cashFlowsCalculatedPos
-        });
+        for (let i = 0; i < calc.$cashFlowsCalculatedPos.length; i++) {
+          const curr = calc.$cashFlowsCalculatedPos[i];
+          const height = (curr / calc.$maxCashFlow) * 100;
+
+          $('#chart-container .chart-bar--top')[i].setAttribute('style', 'height: ' + height + '%');
+        }
       },
 
       step_3: function() {
@@ -405,11 +329,11 @@
         calc.$activeStep = 3;
         calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
-        $(bars).attr('style', 'transform: scaleY(0); transform-origin: bottom;');
+        for (let i = 0; i < $('#chart-container .chart-bar--top').length; i++) {
+          const currBar = $('#chart-container .chart-bar--top')[i];
 
-        setTimeout(function() {
-          $($('.highcharts-container svg .highcharts-series-group g')[0]).attr('style', 'transform: translateY(100%)');
-        }, 250);
+          $(currBar).css('transform', 'scaleY(0)');
+        }
       },
 
       step_4: function() {
@@ -420,20 +344,9 @@
         calc.$activeStep = 4;
         calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
-        $(calc.$chart).addClass('step-3');
-
-        var hiddenNeg = $($('.highcharts-tracker')[1]).children()[1],
-            hnYPos = hiddenNeg.getAttribute('y');
-
-        var posPath = document.createElementNS("http://www.w3.org/2000/svg", "path"),
-            negPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-        posPath.setAttribute('id', 'pos-wave');
-        negPath.setAttribute('id', 'neg-wave');
-        negPath.setAttribute('style', 'transform: translateY(' + Math.round(hnYPos - 60) + 'px);');
-
-        $($('#hidden-final-chart .highcharts-series-group g')[0]).prepend(posPath);
-        $($('#hidden-final-chart .highcharts-series-group g')[0]).append(negPath);
+        setTimeout(function() {
+          $(calc.$hiddenChart).css('transform', 'translateY(0)');
+        }, 450);
       },
 
       step_5: function() {
@@ -457,42 +370,23 @@
         calc.$activeStep = 5;
         calc.$progressBar.attr('data-active-step', calc.$activeStep);
 
-        calc.$stackedChart.series[0].update({
-          data: [finalSum, finalSum]
-        });
+        const stackedBars = $('#hidden-chart .chart-bar');
+        const stackedHeight = (finalSum / calc.$maxCashFlow) * 100 / 2;
+        const stackedIndex = finalSum > 0 ? 0 : 1;
+        const stackedIndexRemove = finalSum > 0 ? 1: 0;
+
+        $(stackedBars[stackedIndex]).css('height', stackedHeight + '%');
+        $(stackedBars[stackedIndexRemove]).css('height', 0);
 
         setTimeout(function() {
-          const overflowHeight = $('#overflow-hide').height();
-          const finalChartHeight = $('#hidden-final-chart').height();
-          const buffer = overflowHeight + (finalChartHeight / 3);
-
-          console.log('overflowHeight: ' + overflowHeight);
-          console.log('finalChartHeight: ' + finalChartHeight);
-
-          console.log('height should be: ' + buffer + 'px');
-
-          $('#overflow-hide').css({
-            'height': buffer + 'px',
-            'overflow': 'visible',
-            'transition': 'all .3s ease-in-out'
-          });
-
-          $('#hidden-final-chart .highcharts-container').css({
-            'transform': 'translateY(130px)',
-            'transition': 'all .3s ease-in-out'
-          });
-        }, 800);
-
-        setTimeout(function() {
-          $('#hidden-final-chart').prepend(finalHTML);
+          $('#hidden-chart').prepend(finalHTML);
           
           setTimeout(function() {
             $('#chart-final-message').css('opacity', '1');
           }, 200);
-        }, 1300);
+        }, 1000);
 
         calc.displayRes(calc.$rateGrowth, calc.$cashFlowsTotals[2]);
-        // $('#hidden-final-chart .highcharts-series .highcharts-point:not(.highcharts-negative)').css('transform', 'translateY(100px)');
       },
 
       // Cash Flows
@@ -515,7 +409,6 @@
           
           calc.$cashFlows.push(finalVal.valueOf());
           calc.$cashFlowsPos.push(Math.abs(finalVal.valueOf()));
-          calc.$cashFlowsPosStorage.push(Math.abs(finalVal.valueOf()));
   
           calc.$cashFlowInput.val('');
 
@@ -530,7 +423,6 @@
 
         calc.$cashFlows.splice(index, 1);
         calc.$cashFlowsPos.splice(index, 1);
-        calc.$cashFlowsPosStorage.splice(index, 1);
 
         el.remove();
 
@@ -544,16 +436,12 @@
         gValue = calc.$growthValue.next().attr('value');
         calc.$growthValue.html(gValue + '%');
         calc.$rateGrowth = gValue / 100;
-        //  console.log('calc.$rateGrowth initial ' + calc.$rateGrowth);
 
         // intital decay slider value
         dValue = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
         dValueCalc = (Math.round(dValue)).toFixed(0);
-        // console.log('dValueCalc: ' + dValueCalc);
         calc.$rateDecay = dValueCalc / 100;
-        // console.log("rate decay " + calc.$rateDecay);
         calc.$decayValue.html((1 - calc.$rateDecay).toFixed(1));
-        // console.log("discount factor " + (1 - calc.$rateDecay));
       },
 
       currentRates: function () {
@@ -563,16 +451,12 @@
         currentGrowthVal = $('input[type=range]').val();
         calc.$growthValue.text(currentGrowthVal + '%');
         calc.$rateGrowth = currentGrowthVal / 100;
-        // console.log('calc.$rateGrowth current ' + calc.$rateGrowth);
 
         // current decay slider value
         currentDecayVal = (1 - (1 / (1 + calc.$rateGrowth))) * 100;
         currentDecayValCalc = (Math.round(currentDecayVal)).toFixed(0);
-        // console.log('currentDecayValCalc: ' + currentDecayValCalc);
         calc.$rateDecay = currentDecayValCalc / 100;
-        // console.log("rate decay " + calc.$rateDecay);
         calc.$decayValue.html((1 - calc.$rateDecay).toFixed(1));
-        // console.log('discount factor ' + (1 - calc.$rateDecay));
       },
 
       decayCashFlow: function (val) {
@@ -587,19 +471,12 @@
             // convert current cashflow val to decayed cashflow val 
 
             newVal = calc.$cashFlows[i] * (Math.pow((1 - val), i));
-            // console.log('calc.$cashFlows[i]: ' + calc.$cashFlows[i])
-            // console.log('val: ' + val)
-            // console.log('count: ' + i)
-            // console.log('newVal: ' + newVal);
             finalVal = Number(newVal.toFixed(2));
-            // console.log('finalVal: ' + finalVal);
 
             calc.$cashFlowsCalculated.push(finalVal);
             calc.$cashFlowsCalculatedPos.push(Math.abs(finalVal));
           }
         }
-
-        // console.log('cashFlowsCalculated: ' + calc.$cashFlowsCalculated);
       },
 
       totalsCashFlows: function () {
@@ -659,8 +536,6 @@
           Number(
             diff(posSumAvg, negSumAvg).toFixed(2)
           ));
-
-        // console.log('$cashFlowsTotals: ' + calc.$cashFlowsTotals);
       },
 
       displayRes: function (growthRate, npv) {
@@ -686,7 +561,6 @@
         // cashflows empty
         calc.$cashFlows = [];
         calc.$cashFlowsPos = [];
-        calc.$cashFlowsPosStorage = [];
         calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
@@ -695,7 +569,6 @@
         calc.$chartObj = {};
         calc.$stackedChart = {};
         calc.$stackedData = [];
-        calc.$stackedDataStorage = [];
         calc.$activeStep = 1;
 
         // btns reset
@@ -707,7 +580,7 @@
         $(calc.$chart).removeClass('step-3');
         // calc.$chart.load(location.href + " #chart-main");
         $(calc.$chartControls).removeClass('chart-controls--active');
-        $('#hidden-final-chart .chart-final-message').css('display', 'none');
+        $('#hidden-chart .chart-final-message').css('display', 'none');
         $('.highcharts-container').css('display', 'none');
 
         calc.$cashFlowInput.focus();
@@ -715,20 +588,19 @@
 
       runAgain: function () {
         // chart move
-        $('#hidden-final-chart').addClass('runAgainTransform');
-        // $('#hidden-final-chart .highcharts-container').css('transform', 'translateY(400px)');
+        $('#hidden-chart').addClass('runAgainTransform');
+        // $('#hidden-chart .highcharts-container').css('transform', 'translateY(400px)');
 
         // cashflow empty
         calc.$cashFlowsCalculated = [];
         calc.$cashFlowsCalculatedPos = [];
         calc.$cashFlowsTotals = [];
-        calc.$stackedData =[];
+        calc.$stackedData = [];
 
         // charts empty
         calc.$chartObj = {};
         calc.$stackedChart = {};
         calc.$stackedData = [];
-        calc.$stackedDataStorage = [];
         calc.$activeStep = 1;
       }
     };
